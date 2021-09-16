@@ -46,15 +46,16 @@ let displayRecipeInfo = (obj) => {
     window.scrollTo(0, 0);
     headerContainer.prepend(returnLink);
     returnLink.addEventListener('click', handleReturnClick);
-    subHeader.innerText = obj.attributes.name;
+    const {name, description, image, ingredients, instructions} = obj.attributes
+    subHeader.innerText = name;
     headerContainer.append(subHeader);
     addRecipeBtn.remove();
     formContainer.innerHTML = '';
 
     contentContainer.innerHTML = `
         <div id="info">
-            <p class="description">${obj.attributes.description}</p>
-            <img class="image" src="${obj.attributes.image}" width="300">
+            <p class="description">${description}</p>
+            <img class="image" src="${image}" width="300">
             <h4>Ingredients</h4>
                 <ul id="ingredients-list">
                 </ul>
@@ -70,15 +71,13 @@ let displayRecipeInfo = (obj) => {
 
     const contentIngredients = contentContainer.querySelector('#ingredients-list');
     const contentInstructions = contentContainer.querySelector('#instructions-list');
-    const ingredientsArray = obj.attributes.ingredients;
-    const instructionsArray = obj.attributes.instructions;
 
-    ingredientsArray.forEach(ingredient => {
+    ingredients.forEach(ingredient => {
         const li = document.createElement('li');
         li.innerText = `${ingredient}`;
         contentIngredients.append(li);
     });
-    instructionsArray.forEach(instruction => {
+    instructions.forEach(instruction => {
         const li = document.createElement('li');
         li.innerText = `${instruction}`;
         contentInstructions.append(li);
