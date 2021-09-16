@@ -20,11 +20,10 @@ let fetchAllRecipes = () => {
 };
 
 let renderRecipes = (json) => {
-    const recipes = json.data;
-    recipes.forEach(recipe => renderRecipe(recipe));
+    json.data.forEach(recipe => addRecipeLink(recipe));
 };
 
-let renderRecipe = (obj) => {
+let addRecipeLink = (obj) => {
     const recipesList = contentContainer.querySelector('#recipes-list');
     const li = document.createElement('li');
     li.innerHTML = `
@@ -87,26 +86,14 @@ let displayRecipeInfo = (obj) => {
 
     const editBtn = contentContainer.querySelector('.edit');
     const deleteBtn = contentContainer.querySelector('.delete');
-
     editBtn.addEventListener('click', (e) => handleEditOrSave(e, obj.id));
     deleteBtn.addEventListener('click', (e) => deleteRecipe(e, obj.id));
 };
 
 let handleReturnClick = (e) => {
     e.preventDefault();
-    e.target.remove();
-    subHeader.innerText = `Your quick-and-easy guide to Korean recipes`;
-    headerContainer.append(subHeader);
-    addRecipeBtn.innerText = `Add a new recipe`;
-    buttonContainer.append(addRecipeBtn);
-    formContainer.innerHTML = ``;
-    contentContainer.innerHTML = `
-        <ul id="recipes-list">
-        </ul>
-    `;
-    fetch('http://localhost:3000/recipes')
-        .then(resp => resp.json())
-        .then(renderRecipes);
+    setPageToDefault();
+    fetchAllRecipes();
 };
 
 let handleEditOrSave = (e, id) => {
@@ -115,7 +102,7 @@ let handleEditOrSave = (e, id) => {
         editRecipeForm();
     } else if (e.target.innerText === `Save Recipe`) {
         e.target.innerText = `Edit Recipe`;
-        updateRecipe(id);
+        sendRecipeForm('PATCH', id);
     };
 };
 
@@ -174,64 +161,12 @@ let editRecipeForm = () => {
         `;
     };
 
-    const addIngredientBtn = formContainer.querySelector('#add-ingredient');
-    const addInstructionBtn = formContainer.querySelector('#add-instruction');
-    addIngredientBtn.addEventListener('click', addIngredient);
-    addInstructionBtn.addEventListener('click', addInstruction);
-};
-
-let updateRecipe = (id) => {
-    const nameInput = formContainer.querySelector('#recipe-name');
-    const descriptionInput = formContainer.querySelector('#recipe-description');
-    const imageInput = formContainer.querySelector('#recipe-image');
-    const ingredientsInputCollection = formContainer.querySelector('#recipe-ingredients').children;
-    const instructionsInputCollection = formContainer.querySelector('#recipe-instructions').children;
-    const ingredientsInput = [];
-    const instructionsInput = [];
-
-    for (const li of ingredientsInputCollection){
-        if(li.lastElementChild.value){
-            ingredientsInput.push(li.lastElementChild.value);
-        };
-    };
-    for (const li of instructionsInputCollection){
-        if(li.lastElementChild.value){
-            instructionsInput.push(li.lastElementChild.value);
-        };
-    };
-
-    const recipeInfo = {
-        name: nameInput.value,
-        description: descriptionInput.value,
-        image: imageInput.value,
-        ingredients: ingredientsInput,
-        instructions: instructionsInput
-    };
-    const configObj = {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-        body: JSON.stringify(recipeInfo)
-    };
-    fetch(`http://localhost:3000/recipes/${id}`, configObj)
-        .then(resp => resp.json())
-        .then(json => displayRecipeInfo(json.data));
+    addEventForExtraFields();
 };
 
 let deleteRecipe = (e, id) => {
     if(confirm('Are you sure you want to delete this recipe?')){
-        returnLink.remove();
-        subHeader.innerText = `Your quick-and-easy guide to Korean recipes`;
-        headerContainer.append(subHeader)
-        addRecipeBtn.innerText = `Add a new recipe`;
-        buttonContainer.append(addRecipeBtn);
-        formContainer.innerHTML = ``;
-        contentContainer.innerHTML = `
-            <ul id="recipes-list">
-            </ul>
-        `;
+        setPageToDefault();
     
         const configObj = {
             method: 'DELETE',
@@ -244,11 +179,22 @@ let deleteRecipe = (e, id) => {
             .then(resp => resp.json())
             .then(json => {
                 alert(json.message);
-                fetch('http://localhost:3000/recipes')
-                    .then(resp => resp.json())
-                    .then(renderRecipes);
+                fetchAllRecipes();
             });
     };
+};
+
+let setPageToDefault = () => {
+    returnLink.remove();
+    subHeader.innerText = `Your quick-and-easy guide to Korean recipes`;
+    headerContainer.append(subHeader);
+    addRecipeBtn.innerText = `Add a new recipe`;
+    buttonContainer.append(addRecipeBtn);
+    formContainer.innerHTML = ``;
+    contentContainer.innerHTML = `
+        <ul id="recipes-list">
+        </ul>
+    `;
 };
 
 let addNewRecipe = (e) => {
@@ -289,10 +235,7 @@ let newRecipeForm = () => {
         </form>
     `;
 
-    const addIngredientBtn = formContainer.querySelector('#add-ingredient');
-    const addInstructionBtn = formContainer.querySelector('#add-instruction');
-    addIngredientBtn.addEventListener('click', addIngredient);
-    addInstructionBtn.addEventListener('click', addInstruction);
+    addEventForExtraFields();
 
     const form = formContainer.querySelector('#recipe-form');
     form.addEventListener('submit', createRecipe);
@@ -302,6 +245,42 @@ let createRecipe = (e) => {
     //How can I prevent losing the data in the form fields if callback returns false
     e.preventDefault();
 
+    sendRecipeForm('POST', '');
+};
+
+let addEventForExtraFields = () => {
+    const addIngredientBtn = formContainer.querySelector('#add-ingredient');
+    const addInstructionBtn = formContainer.querySelector('#add-instruction');
+    addIngredientBtn.addEventListener('click', addIngredient);
+    addInstructionBtn.addEventListener('click', addInstruction);
+};
+
+let addIngredient = (e) => {
+    e.preventDefault();
+    const formIngredients = formContainer.querySelector('#recipe-ingredients');
+    const liTag = document.createElement('li');
+    const textareaTag = document.createElement('textarea');
+    textareaTag.setAttribute('name', 'ingredients[]')
+    textareaTag.setAttribute('rows', '1');
+    textareaTag.setAttribute('cols', '45');
+    liTag.append(textareaTag);
+    formIngredients.append(liTag);
+};
+
+let addInstruction = (e) => {
+    e.preventDefault();
+    const formInstructions = formContainer.querySelector('#recipe-instructions');
+    const liTag = document.createElement('li');
+    const brTag = document.createElement('br');
+    const textareaTag = document.createElement('textarea');
+    textareaTag.setAttribute('name', 'instructions[]')
+    textareaTag.setAttribute('rows', '3');
+    textareaTag.setAttribute('cols', '60');
+    liTag.append(brTag, textareaTag);
+    formInstructions.append(liTag);
+};
+
+let sendRecipeForm = (request, id) => {
     const nameInput = formContainer.querySelector('#recipe-name');
     const descriptionInput = formContainer.querySelector('#recipe-description');
     const imageInput = formContainer.querySelector('#recipe-image');
@@ -329,39 +308,14 @@ let createRecipe = (e) => {
         instructions: instructionsInput
     };
     const configObj = {
-        method: 'POST',
+        method: `${request}`,
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json"
         },
         body: JSON.stringify(recipeInfo)
     };
-    fetch("http://localhost:3000/recipes", configObj)
+    fetch(`http://localhost:3000/recipes/${id}`, configObj)
         .then(resp => resp.json())
         .then(json => displayRecipeInfo(json.data));
-};
-
-let addIngredient = (e) => {
-    e.preventDefault();
-    const formIngredients = formContainer.querySelector('#recipe-ingredients');
-    const liTag = document.createElement('li');
-    const textareaTag = document.createElement('textarea');
-    textareaTag.setAttribute('name', 'ingredients[]')
-    textareaTag.setAttribute('rows', '1');
-    textareaTag.setAttribute('cols', '45');
-    liTag.append(textareaTag);
-    formIngredients.append(liTag);
-};
-
-let addInstruction = (e) => {
-    e.preventDefault();
-    const formInstructions = formContainer.querySelector('#recipe-instructions');
-    const liTag = document.createElement('li');
-    const brTag = document.createElement('br');
-    const textareaTag = document.createElement('textarea');
-    textareaTag.setAttribute('name', 'instructions[]')
-    textareaTag.setAttribute('rows', '3');
-    textareaTag.setAttribute('cols', '60');
-    liTag.append(brTag, textareaTag);
-    formInstructions.append(liTag);
 };
