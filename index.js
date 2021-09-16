@@ -39,14 +39,13 @@ let handleRecipeClick = (e, id) => {
     
     fetch(`http://localhost:3000/recipes/${id}`)
         .then(resp => resp.json())
-        .then(json => displayRecipeInfo(json.data));
+        .then(json => displayRecipeInfo(json.data.attributes));
 };
 
-let displayRecipeInfo = (obj) => {
+let displayRecipeInfo = ({name, description, image, ingredients, instructions}) => {
     window.scrollTo(0, 0);
     headerContainer.prepend(returnLink);
     returnLink.addEventListener('click', handleReturnClick);
-    const {name, description, image, ingredients, instructions} = obj.attributes
     subHeader.innerText = name;
     headerContainer.append(subHeader);
     addRecipeBtn.remove();
@@ -316,5 +315,5 @@ let sendRecipeForm = (request, id) => {
     };
     fetch(`http://localhost:3000/recipes/${id}`, configObj)
         .then(resp => resp.json())
-        .then(json => displayRecipeInfo(json.data));
+        .then(json => displayRecipeInfo(json.data.attributes));
 };
