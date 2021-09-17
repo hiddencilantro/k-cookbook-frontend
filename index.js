@@ -13,17 +13,17 @@ const returnLink = document.createElement('a');
 returnLink.setAttribute('href', '');
 returnLink.innerText = `Return to recipes`;
 
-let fetchAllRecipes = () => {
+const fetchAllRecipes = () => {
     fetch('http://localhost:3000/recipes')
         .then(resp => resp.json())
         .then(renderRecipes);
 };
 
-let renderRecipes = (json) => {
+const renderRecipes = (json) => {
     json.data.forEach(recipe => addRecipeLink(recipe));
 };
 
-let addRecipeLink = (obj) => {
+const addRecipeLink = (obj) => {
     const recipesList = contentContainer.querySelector('#recipes-list');
     const li = document.createElement('li');
     li.innerHTML = `
@@ -34,7 +34,7 @@ let addRecipeLink = (obj) => {
     newlyAddedAnchor.addEventListener('click', (e) => handleRecipeClick(e, obj.id));
 };
 
-let handleRecipeClick = (e, id) => {
+const handleRecipeClick = (e, id) => {
     e.preventDefault();
     
     fetch(`http://localhost:3000/recipes/${id}`)
@@ -42,7 +42,7 @@ let handleRecipeClick = (e, id) => {
         .then(json => displayRecipeInfo(json.data.attributes));
 };
 
-let displayRecipeInfo = ({name, description, image, ingredients, instructions}) => {
+const displayRecipeInfo = ({name, description, image, ingredients, instructions}) => {
     window.scrollTo(0, 0);
     headerContainer.prepend(returnLink);
     returnLink.addEventListener('click', handleReturnClick);
@@ -88,13 +88,13 @@ let displayRecipeInfo = ({name, description, image, ingredients, instructions}) 
     deleteBtn.addEventListener('click', (e) => deleteRecipe(e, obj.id));
 };
 
-let handleReturnClick = (e) => {
+const handleReturnClick = (e) => {
     e.preventDefault();
     setPageToDefault();
     fetchAllRecipes();
 };
 
-let handleEditOrSave = (e, id) => {
+const handleEditOrSave = (e, id) => {
     if (e.target.innerText === `Edit Recipe`) {
         e.target.innerText = `Save Recipe`;
         editRecipeForm();
@@ -104,7 +104,7 @@ let handleEditOrSave = (e, id) => {
     };
 };
 
-let editRecipeForm = () => {
+const editRecipeForm = () => {
     window.scrollTo(0, 0);
     subHeader.remove();
 
@@ -162,7 +162,7 @@ let editRecipeForm = () => {
     addEventForExtraFields();
 };
 
-let deleteRecipe = (e, id) => {
+const deleteRecipe = (e, id) => {
     if(confirm('Are you sure you want to delete this recipe?')){
         setPageToDefault();
     
@@ -182,7 +182,7 @@ let deleteRecipe = (e, id) => {
     };
 };
 
-let setPageToDefault = () => {
+const setPageToDefault = () => {
     returnLink.remove();
     subHeader.innerText = `Your quick-and-easy guide to Korean recipes`;
     headerContainer.append(subHeader);
@@ -195,7 +195,7 @@ let setPageToDefault = () => {
     `;
 };
 
-let addNewRecipe = (e) => {
+const addNewRecipe = (e) => {
     if (e.target.innerText === `Add a new recipe`) {
         e.target.innerText = `Hide form`;
         newRecipeForm();
@@ -205,7 +205,7 @@ let addNewRecipe = (e) => {
     };
 };
 
-let newRecipeForm = () => {
+const newRecipeForm = () => {
     formContainer.innerHTML += `
         <form id="recipe-form">
             <br>
@@ -239,21 +239,21 @@ let newRecipeForm = () => {
     form.addEventListener('submit', createRecipe);
 };
 
-let createRecipe = (e) => {
+const createRecipe = (e) => {
     //How can I prevent losing the data in the form fields if callback returns false
     e.preventDefault();
 
     sendRecipeForm('POST', '');
 };
 
-let addEventForExtraFields = () => {
+const addEventForExtraFields = () => {
     const addIngredientBtn = formContainer.querySelector('#add-ingredient');
     const addInstructionBtn = formContainer.querySelector('#add-instruction');
     addIngredientBtn.addEventListener('click', addIngredient);
     addInstructionBtn.addEventListener('click', addInstruction);
 };
 
-let addIngredient = (e) => {
+const addIngredient = (e) => {
     e.preventDefault();
     const formIngredients = formContainer.querySelector('#recipe-ingredients');
     const liTag = document.createElement('li');
@@ -265,7 +265,7 @@ let addIngredient = (e) => {
     formIngredients.append(liTag);
 };
 
-let addInstruction = (e) => {
+const addInstruction = (e) => {
     e.preventDefault();
     const formInstructions = formContainer.querySelector('#recipe-instructions');
     const liTag = document.createElement('li');
@@ -278,7 +278,7 @@ let addInstruction = (e) => {
     formInstructions.append(liTag);
 };
 
-let sendRecipeForm = (request, id) => {
+const sendRecipeForm = (request, id) => {
     const nameInput = formContainer.querySelector('#recipe-name');
     const descriptionInput = formContainer.querySelector('#recipe-description');
     const imageInput = formContainer.querySelector('#recipe-image');
