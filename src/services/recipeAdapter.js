@@ -7,7 +7,8 @@ class RecipeAdapter {
         fetch(this.baseURL)
             .then(resp => resp.json())
             .then(json => {
-                json.data.forEach(recipe => addRecipeLink(recipe))
+                allRecipes = [];
+                json.data.forEach(recipe => createRecipeLink(recipe));
             });
     };
 

@@ -19,6 +19,7 @@ returnLink.setAttribute('href', '');
 returnLink.innerText = `Return to recipes`;
 const categoryButtons = [];
 const categoryOptions = [];
+let allRecipes = [];
 
 const renderCategories = (obj) => {
     const button = document.createElement('button');
@@ -33,18 +34,36 @@ const renderCategories = (obj) => {
 };
 
 const handleCategoryClick = (e, id) => {
-
+    const recipesList = contentContainer.querySelector('#recipes-list');
+    if (!e.target.classList.contains('active')) {
+        for (const button of e.target.parentElement.children) {
+            button.classList.remove('active');
+        };
+        e.target.classList.add('active');
+        const filteredRecipes = allRecipes.filter(li => li.categoryId === parseInt(id));
+        recipesList.innerHTML = ``;
+        filteredRecipes.forEach(recipe => appendRecipeLink(recipe));
+    } else {
+        e.target.classList.remove('active');
+        recipesList.innerHTML = ``;
+        allRecipes.forEach(recipe => appendRecipeLink(recipe));
+    };
 };
 
-const addRecipeLink = (obj) => {
-    const recipesList = contentContainer.querySelector('#recipes-list');
+const createRecipeLink = (obj) => {
     const li = document.createElement('li');
+    li["categoryId"] = obj.attributes.category_id
     li.innerHTML = `
         <a href id="recipe-${obj.id}">${obj.attributes.name}</a>
     `;
-    recipesList.append(li);
-    const newlyAddedAnchor = recipesList.querySelector(`#recipe-${obj.id}`);
+    allRecipes.push(li);
+    appendRecipeLink(li);
+    const newlyAddedAnchor = contentContainer.querySelector(`#recipe-${obj.id}`);
     newlyAddedAnchor.addEventListener('click', (e) => handleRecipeClick(e, obj.id));
+};
+
+const appendRecipeLink = (li) => {
+    contentContainer.querySelector('#recipes-list').append(li);
 };
 
 const handleRecipeClick = (e, id) => {
@@ -199,7 +218,10 @@ const setPageToDefault = () => {
 
 const appendCategoryButtons = (arr) => {
     const categoryContainer = contentContainer.querySelector('#categories');
-    arr.forEach(button => categoryContainer.append(button));
+    arr.forEach(button => {
+        button.classList.remove('active');
+        categoryContainer.append(button);
+    });
 };
 
 const addNewRecipe = (e) => {
