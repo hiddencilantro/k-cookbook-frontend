@@ -18,12 +18,18 @@ const returnLink = document.createElement('a');
 returnLink.setAttribute('href', '');
 returnLink.innerText = `Return to recipes`;
 const categoryButtons = [];
+const categoryOptions = [];
 
-const addCategoryButton = (obj) => {
+const renderCategories = (obj) => {
     const button = document.createElement('button');
     button.innerText = obj.attributes.name;
     button.addEventListener('click', (e) => handleCategoryClick(e, obj.id));
     categoryButtons.push(button);
+
+    const option = document.createElement('option');
+    option.innerText = obj.attributes.name;
+    option.value = obj.id;
+    categoryOptions.push(option);
 };
 
 const handleCategoryClick = (e, id) => {
@@ -210,6 +216,11 @@ const newRecipeForm = () => {
     formContainer.innerHTML += `
         <form id="recipe-form">
             <br>
+            <label for="cat-dropdown">Category: </label>
+            <select name="category_id" id="cat-dropdown">
+                <option>Select a category</option>
+            </select>
+            <br><br>
             <label for="recipe-name">Name: </label>
             <input type="text" name="name" id="recipe-name" size="35"><br><br>
             <label for="recipe-description">Description:</label><br>
@@ -233,11 +244,16 @@ const newRecipeForm = () => {
             <input type="submit" value="Submit Recipe">
         </form>
     `;
-
+    addCategoriesToDropdown(categoryOptions);
     addEventForExtraFields();
 
     const form = formContainer.querySelector('#recipe-form');
     form.addEventListener('submit', createRecipe);
+};
+
+const addCategoriesToDropdown = (arr) => {
+    const dropdown = formContainer.querySelector('#cat-dropdown');
+    arr.forEach(option => dropdown.append(option));
 };
 
 const createRecipe = (e) => {
