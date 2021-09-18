@@ -1,7 +1,9 @@
 const domain = 'http://localhost:3000/';
+const categoryAdapter = new CategoryAdapter(domain);
 const recipeAdapter = new RecipeAdapter(domain);
 
 window.addEventListener('DOMContentLoaded', () => {
+    categoryAdapter.fetchAllCategories();
     recipeAdapter.fetchAllRecipes();
     addRecipeBtn.addEventListener('click', addNewRecipe);   
 });
@@ -15,6 +17,18 @@ const contentContainer = document.querySelector('div.content');
 const returnLink = document.createElement('a');
 returnLink.setAttribute('href', '');
 returnLink.innerText = `Return to recipes`;
+const categoryButtons = [];
+
+const addCategoryButton = (obj) => {
+    const button = document.createElement('button');
+    button.innerText = obj.attributes.name;
+    button.addEventListener('click', (e) => handleCategoryClick(e, obj.id));
+    categoryButtons.push(button);
+};
+
+const handleCategoryClick = (e, id) => {
+
+};
 
 const addRecipeLink = (obj) => {
     const recipesList = contentContainer.querySelector('#recipes-list');
@@ -167,9 +181,19 @@ const setPageToDefault = () => {
     buttonContainer.append(addRecipeBtn);
     formContainer.innerHTML = ``;
     contentContainer.innerHTML = `
-        <ul id="recipes-list">
-        </ul>
+        <h4>Filter by Category:</h4>
+            <div id="categories">
+            </div>
+        <h4>All Recipes:</h4>
+            <ul id="recipes-list">
+            </ul>
     `;
+    appendCategoryButtons(categoryButtons);
+};
+
+const appendCategoryButtons = (arr) => {
+    const categoryContainer = contentContainer.querySelector('#categories');
+    arr.forEach(button => categoryContainer.append(button));
 };
 
 const addNewRecipe = (e) => {
