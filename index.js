@@ -1,5 +1,8 @@
+const domain = 'http://localhost:3000/';
+const recipeAdapter = new RecipeAdapter(domain);
+
 window.addEventListener('DOMContentLoaded', () => {
-    fetchAllRecipes();
+    recipeAdapter.fetchAllRecipes();
     addRecipeBtn.addEventListener('click', addNewRecipe);   
 });
 
@@ -12,16 +15,6 @@ const contentContainer = document.querySelector('div.content');
 const returnLink = document.createElement('a');
 returnLink.setAttribute('href', '');
 returnLink.innerText = `Return to recipes`;
-
-const fetchAllRecipes = () => {
-    fetch('http://localhost:3000/recipes')
-        .then(resp => resp.json())
-        .then(renderRecipes);
-};
-
-const renderRecipes = (json) => {
-    json.data.forEach(recipe => addRecipeLink(recipe));
-};
 
 const addRecipeLink = (obj) => {
     const recipesList = contentContainer.querySelector('#recipes-list');
@@ -36,16 +29,14 @@ const addRecipeLink = (obj) => {
 
 const handleRecipeClick = (e, id) => {
     e.preventDefault();
-    
-    fetch(`http://localhost:3000/recipes/${id}`)
-        .then(resp => resp.json())
-        .then(json => displayRecipeInfo(json.data.attributes));
+    recipeAdapter.fetchSingleRecipe(id);
 };
 
-const displayRecipeInfo = ({name, description, image, ingredients, instructions}) => {
+const displayRecipeInfo = (obj) => {
     window.scrollTo(0, 0);
     headerContainer.prepend(returnLink);
     returnLink.addEventListener('click', handleReturnClick);
+    const {name, description, image, ingredients, instructions} = obj.attributes;
     subHeader.innerText = name;
     headerContainer.append(subHeader);
     addRecipeBtn.remove();
@@ -91,7 +82,7 @@ const displayRecipeInfo = ({name, description, image, ingredients, instructions}
 const handleReturnClick = (e) => {
     e.preventDefault();
     setPageToDefault();
-    fetchAllRecipes();
+    recipeAdapter.fetchAllRecipes();
 };
 
 const handleEditOrSave = (e, id) => {
@@ -100,7 +91,7 @@ const handleEditOrSave = (e, id) => {
         editRecipeForm();
     } else if (e.target.innerText === `Save Recipe`) {
         e.target.innerText = `Edit Recipe`;
-        sendRecipeForm('PATCH', id);
+        prepFormSubmit('PATCH', id);
     };
 };
 
@@ -164,21 +155,7 @@ const editRecipeForm = () => {
 
 const deleteRecipe = (e, id) => {
     if(confirm('Are you sure you want to delete this recipe?')){
-        setPageToDefault();
-    
-        const configObj = {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            }
-        };
-        fetch(`http://localhost:3000/recipes/${id}`, configObj)
-            .then(resp => resp.json())
-            .then(json => {
-                alert(json.message);
-                fetchAllRecipes();
-            });
+        recipeAdapter.deleteRecipe(id);
     };
 };
 
@@ -242,8 +219,7 @@ const newRecipeForm = () => {
 const createRecipe = (e) => {
     //How can I prevent losing the data in the form fields if callback returns false
     e.preventDefault();
-
-    sendRecipeForm('POST', '');
+    prepFormSubmit('POST', '');
 };
 
 const addEventForExtraFields = () => {
@@ -278,7 +254,7 @@ const addInstruction = (e) => {
     formInstructions.append(liTag);
 };
 
-const sendRecipeForm = (request, id) => {
+const prepFormSubmit = (request, id) => {
     const nameInput = formContainer.querySelector('#recipe-name');
     const descriptionInput = formContainer.querySelector('#recipe-description');
     const imageInput = formContainer.querySelector('#recipe-image');
@@ -305,15 +281,6 @@ const sendRecipeForm = (request, id) => {
         ingredients: ingredientsInput,
         instructions: instructionsInput
     };
-    const configObj = {
-        method: `${request}`,
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-        body: JSON.stringify(recipeInfo)
-    };
-    fetch(`http://localhost:3000/recipes/${id}`, configObj)
-        .then(resp => resp.json())
-        .then(json => displayRecipeInfo(json.data.attributes));
+
+    recipeAdapter.sendRecipe(request, recipeInfo, id);
 };
