@@ -75,7 +75,7 @@ const displayRecipeInfo = (obj) => {
     window.scrollTo(0, 0);
     headerContainer.prepend(returnLink);
     returnLink.addEventListener('click', handleReturnClick);
-    const {name, description, image, ingredients, instructions} = obj.attributes;
+    const {name, description, image, ingredients, instructions, category} = obj.attributes;
     subHeader.innerText = name;
     headerContainer.append(subHeader);
     addRecipeBtn.remove();
@@ -114,7 +114,7 @@ const displayRecipeInfo = (obj) => {
 
     const editBtn = contentContainer.querySelector('.edit');
     const deleteBtn = contentContainer.querySelector('.delete');
-    editBtn.addEventListener('click', (e) => handleEditOrSave(e, obj.id));
+    editBtn.addEventListener('click', (e) => handleEditOrSave(e, obj.id, category));
     deleteBtn.addEventListener('click', (e) => deleteRecipe(e, obj.id));
 };
 
@@ -124,17 +124,17 @@ const handleReturnClick = (e) => {
     recipeAdapter.fetchAllRecipes();
 };
 
-const handleEditOrSave = (e, id) => {
+const handleEditOrSave = (e, recipeId, categoryObj) => {
     if (e.target.innerText === `Edit Recipe`) {
         e.target.innerText = `Save Recipe`;
-        editRecipeForm();
+        editRecipeForm(categoryObj);
     } else if (e.target.innerText === `Save Recipe`) {
         e.target.innerText = `Edit Recipe`;
-        prepFormSubmit('PATCH', id);
+        prepFormSubmit('PATCH', recipeId);
     };
 };
 
-const editRecipeForm = () => {
+const editRecipeForm = (currentCategory) => {
     window.scrollTo(0, 0);
     subHeader.remove();
 
@@ -152,6 +152,11 @@ const editRecipeForm = () => {
     formContainer.innerHTML = `
         <form id="recipe-form">
             <br>
+            <label for="cat-dropdown">Category: </label>
+            <select name="category_id" id="cat-dropdown">
+                <option value="${currentCategory.id}">${currentCategory.name}</option>
+            </select>
+            <br><br>
             <label for="recipe-name">Name: </label>
             <input type="text" name="name" id="recipe-name" size="35" value="${currentName}"><br><br>
             <label for="recipe-description">Description:</label><br>
@@ -168,6 +173,8 @@ const editRecipeForm = () => {
             <button id="add-instruction">Add next step</button><br><br>
         </form>
     `;
+    const remainingCatOptions = categoryOptions.filter(category => category.value != currentCategory.id);
+    addCategoriesToDropdown(remainingCatOptions);
 
     const formIngredients = formContainer.querySelector('#recipe-ingredients');
     const formInstructions = formContainer.querySelector('#recipe-instructions');
@@ -188,7 +195,6 @@ const editRecipeForm = () => {
             </li>
         `;
     };
-
     addEventForExtraFields();
 };
 
@@ -317,6 +323,7 @@ const addInstruction = (e) => {
 };
 
 const prepFormSubmit = (request, id) => {
+    const categoryInput = formContainer.querySelector('#cat-dropdown');
     const nameInput = formContainer.querySelector('#recipe-name');
     const descriptionInput = formContainer.querySelector('#recipe-description');
     const imageInput = formContainer.querySelector('#recipe-image');
@@ -341,7 +348,8 @@ const prepFormSubmit = (request, id) => {
         description: descriptionInput.value,
         image: imageInput.value,
         ingredients: ingredientsInput,
-        instructions: instructionsInput
+        instructions: instructionsInput,
+        category_id: categoryInput.value
     };
 
     recipeAdapter.sendRecipe(request, recipeInfo, id);
