@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'Quicksand';
+    src: url('fonts/Quicksand-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Quicksand-Bold';
+    src: url('fonts/Quicksand-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Quicksand-Light';
+    src: url('fonts/Quicksand-Light.ttf') format('truetype');
+}
+
+body {
+    font-family: Quicksand;
+}
+
 .active {
     background-color: black;
     color: white;
