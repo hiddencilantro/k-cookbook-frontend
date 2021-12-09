@@ -7,7 +7,7 @@ class CategoryAdapter {
         fetch(this.baseURL)
             .then(resp => resp.json())
             .then(json => {
-                json.data.forEach(category => renderCategories(category));
+                json.data.forEach(category => createCategoryElements(category));
                 appendCategoryButtons(categoryButtons);
             });
     };
