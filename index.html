@@ -9,8 +9,8 @@
     </head>
     <body>
         <div class="container">
-            <h2>K-Cookbook</h2>
             <div class="header">
+                <h1 id="main-header">K-Cookbook</h1>
                 <h3 id="sub-header">Your quick-and-easy guide to Korean recipes</h3>
             </div>
             <div class="button">
@@ -20,16 +20,16 @@
             </div>
             <div class="content">
                 <h4>Filter by Category:</h4>
-                <div id="categories">
-                </div>
+                <div id="categories"></div>
                 <h4>All Recipes:</h4>
-                <ul id="recipes-list">
-                </ul>
+                <ul id="recipes-list"></ul>
             </div>
         </div>
         <br><br>
     </body>
     <script type="text/javascript" src="src/services/categoryAdapter.js"></script>
     <script type="text/javascript" src="src/services/recipeAdapter.js"></script>
+    <script type="text/javascript" src="src/models/category.js"></script>
+    <script type="text/javascript" src="src/models/recipe.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </html>
