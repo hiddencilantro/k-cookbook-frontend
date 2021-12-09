@@ -15,23 +15,7 @@ class RecipeAdapter {
     fetchSingleRecipe = (id) => {
         fetch(`${this.baseURL}/${id}`)
             .then(resp => resp.json())
-            .then(json => displayRecipeInfo(json.data));
-    };
-
-    deleteRecipe = (id) => {
-        const configObj = {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            }
-        };
-        fetch(`${this.baseURL}/${id}`, configObj)
-            .then(resp => resp.json())
-            .then(() => {
-                setPageToDefault();
-                this.fetchAllRecipes();
-            });
+            .then(json => renderRecipe(json.data));
     };
 
     sendRecipe = (request, recipeInfo, id) => {
@@ -45,6 +29,28 @@ class RecipeAdapter {
         };
         fetch(`${this.baseURL}/${id}`, configObj)
             .then(resp => resp.json())
-            .then(json => displayRecipeInfo(json.data));
+            .then(json => {
+                if(json.error){
+                    throw new Error(json.error)
+                }
+                if(!id) {
+                    createRecipeLink(json.data);
+                    renderRecipe(json.data);
+                } else {
+                    populateInfo(json.data.attributes);
+                }
+            })
+            .catch(error => alert(error));
+    };
+
+    deleteRecipe = (id) => {
+        const configObj = {
+            method: 'DELETE'
+        };
+        fetch(`${this.baseURL}/${id}`, configObj)
+            .then(() => {
+                setPageToDefault();
+                this.fetchAllRecipes();
+            });
     };
 };
