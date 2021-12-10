@@ -6,6 +6,7 @@ const categoryOptions = [];
 const createCategoryElements = (obj) => {
     const button = document.createElement('button');
     button.innerText = obj.attributes.name;
+    button.classList.add('category-buttons');
     button.addEventListener('click', (e) => handleCategoryClick(e, obj.id));
     categoryButtons.push(button);
 

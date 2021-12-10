@@ -5,12 +5,13 @@ const recipeAdapter = new RecipeAdapter(domain);
 
 // Node Getters
 const headerContainer = () => document.querySelector('div.header')
-const buttonContainer = () => document.querySelector('div.button');
+const buttonContainer = () => document.querySelector('#button-container');
 const formContainer = () => document.querySelector('div.form');
 const contentContainer = () => document.querySelector('div.content');
+const mainHeader = () => document.querySelector('#main-header')
 const subHeader = document.querySelector('#sub-header');
 const addRecipeBtn = document.querySelector('#add-recipe');
-const returnLink = document.createElement('a');
+const returnLink = document.createElement('button');
 
 // DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,18 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setReturnLink();
 });
 
-// Reset
-const setPageToDefault = () => {
+// Reset to default
+const resetPage = () => {
     returnLink.remove();
-    subHeader.innerText = `Your quick-and-easy guide to Korean recipes`;
+    mainHeader().classList.replace('main-header-content', 'main-header')
     headerContainer().append(subHeader)
     addRecipeBtn.innerText = `Add a new recipe`
+    buttonContainer().classList.replace('link', 'button')
     buttonContainer().append(addRecipeBtn);
     formContainer().innerHTML = ``;
     contentContainer().innerHTML = `
-        <h4>Filter by Category:</h4>
+        <hr>
+        <h4 id="category-header">Filter by Category:</h4>
         <div id="categories"></div>
-        <h4>All Recipes:</h4>
+        <h4 id="recipe-header">All Recipes:</h4>
         <ul id="recipes-list"></ul>
     `;
     appendCategoryButtons(categoryButtons);

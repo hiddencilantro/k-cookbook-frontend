@@ -10,12 +10,14 @@ const recipesList = () => contentContainer().querySelector('#recipes-list');
 // Frontend store (for filter)
 let allRecipes = [];
 
-// Node Constructors, HTML Setters (Renders), Event Listeners
+// Renders (Node Constructors, HTML Setters) & Event Listeners
 const createRecipeLink = (obj) => {
     const li = document.createElement('li');
     li.categoryId = obj.attributes.category_id
     li.innerHTML = `
-        <a href id="recipe-${obj.id}">${obj.attributes.name}</a>
+        <div class="recipe-link">
+            <a href id="recipe-${obj.id}">${obj.attributes.name}</a>
+        <div>
     `;
     allRecipes.push(li);
     appendRecipeLink(li);
@@ -26,32 +28,31 @@ const createRecipeLink = (obj) => {
 const newRecipeForm = () => {
     formContainer().innerHTML = `
         <form id="recipe-form">
-            <br>
-            <label for="cat-dropdown">Category: </label>
+            <label for="cat-dropdown">Category:</label><br>
             <select id="cat-dropdown">
                 <option>Select a category</option>
             </select>
-            <br><br>
-            <label for="recipe-name">Name: </label>
-            <input type="text" id="recipe-name" size="35"><br><br>
+            <br>
+            <label for="recipe-name">Name:</label><br>
+            <input type="text" id="recipe-name"><br>
             <label for="recipe-description">Description:</label><br>
-            <textarea id="recipe-description" rows="3" cols="60"></textarea><br><br>
-            <label for="recipe-image">Image URL: </label>
-            <input type="text" id="recipe-image" size="40"><br><br>
+            <textarea id="recipe-description"></textarea><br>
+            <label for="recipe-image">Image URL:</label><br>
+            <input type="text" id="recipe-image"><br>
             <label for="recipe-ingredients">Ingredients:</label>
             <ul id="recipe-ingredients">
                 <li>
-                    <textarea rows="1" cols="45"></textarea>
+                    <textarea></textarea>
                 </li>
             </ul>
-            <button id="add-ingredient">Add another ingredient</button><br><br>
+            <button id="add-ingredient" type="button">+ Add another ingredient</button><br>
             <label for="recipe-instructions">Instructions:</label>
             <ol id="recipe-instructions">
                 <li>
-                    <br><textarea rows="3" cols="60"></textarea>
+                    <textarea></textarea>
                 </li>
             </ol>
-            <button id="add-instruction">Add next step</button><br><br>
+            <button id="add-instruction" type="button">+ Add next step</button><br>
             <input type="submit" value="Submit Recipe">
         </form>
     `;
@@ -66,14 +67,17 @@ const newRecipeForm = () => {
 };
 
 const setReturnLink = () => {
-    returnLink.setAttribute('href', '');
-    returnLink.innerText = `Return to recipes`;
+    returnLink.innerText = `Return to Recipes`;
+    returnLink.classList.add('return-link');
     returnLink.addEventListener('click', handleReturnClick);
 }
 
 const renderRecipe = (obj) => {
+    subHeader.remove();
     addRecipeBtn.remove();
-    document.querySelector('#main-header').after(returnLink)
+    mainHeader().classList.replace('main-header', 'main-header-content')
+    buttonContainer().classList.replace('button', 'link')
+    buttonContainer().append(returnLink)
     contentContainer().innerHTML = `
         <div id="info">
         </div>
@@ -88,17 +92,15 @@ const renderRecipe = (obj) => {
     const editBtn = contentContainer().querySelector('.edit');
     const deleteBtn = contentContainer().querySelector('.delete');
     editBtn.addEventListener('click', (e) => handleEditOrSave(e, obj.id, obj.attributes.category));
-    // arrow functions inherit the execution context of their outer function
-    // but how does it receive the newly updated obj at the time the callback is executed even without passing the new obj into renderRecipe again (after a PATCH request)
     deleteBtn.addEventListener('click', (e) => deleteRecipe(obj.id));
 };
 
 const populateInfo = ({name, description, image, ingredients, instructions}) => {
     window.scrollTo(0, 0);
-    formContainer().innerHTML = '';
-    subHeader.innerText = name;
-    headerContainer().append(subHeader);
+    formContainer().innerHTML = ``;
     infoContainer().innerHTML = `
+        <hr>
+        <h3 class="name">${name}</h3>
         <p class="description">${description}</p>
         <img class="image" src="${image}" width="300">
         <h4>Ingredients</h4>
@@ -121,43 +123,46 @@ const populateInfo = ({name, description, image, ingredients, instructions}) => 
 }
 
 const editRecipeForm = (currentCategory) => {
+    // currentCategory is still previous category (as expected)
+    // but how does it still know to populate the form with the correct values? (i.e. updated values)
     window.scrollTo(0, 0);
-    subHeader.remove();
 
+    const name = contentContainer().querySelector('h3.name')
     const description = contentContainer().querySelector('p.description');
     const image = contentContainer().querySelector('img.image');
     const ingredientsCollection = contentIngredients().children;
     const instructionsCollection = contentInstructions().children;
 
-    let currentName = subHeader.innerText;
+    let currentName = name.innerText;
     let currentDesc = description.innerText;
     let currentImg = image.src;
 
-    infoContainer().innerHTML = ``;
     formContainer().innerHTML = `
-        <form id="recipe-form">
-            <br>
-            <label for="cat-dropdown">Category: </label>
+        <hr>
+        <form id="recipe-edit-form">
+            <label for="cat-dropdown">Category:</label><br>
             <select id="cat-dropdown">
                 <option value="${currentCategory.id}">${currentCategory.name}</option>
             </select>
-            <br><br>
-            <label for="recipe-name">Name: </label>
-            <input type="text" id="recipe-name" size="35" value="${currentName}"><br><br>
+            <br>
+            <label for="recipe-name">Name:</label><br>
+            <input type="text" id="recipe-name" value="${currentName}"><br>
             <label for="recipe-description">Description:</label><br>
-            <textarea id="recipe-description" rows="3" cols="60">${currentDesc}</textarea><br><br>
-            <label for="recipe-image">Image URL: </label>
-            <input type="text" id="recipe-image" size="40" value="${currentImg}"><br><br>
+            <textarea id="recipe-description">${currentDesc}</textarea><br>
+            <label for="recipe-image">Image URL:</label><br>
+            <input type="text" id="recipe-image"value="${currentImg}"><br>
             <label for="recipe-ingredients">Ingredients:</label>
             <ul id="recipe-ingredients">
             </ul>
-            <button id="add-ingredient">Add another ingredient</button><br><br>
+            <button id="add-ingredient" type="button">+ Add another ingredient</button><br>
             <label for="recipe-instructions">Instructions:</label>
             <ol id="recipe-instructions">
             </ol>
-            <button id="add-instruction">Add next step</button><br><br>
+            <button id="add-instruction" type="button">+ Add next step</button><br>
         </form>
     `;
+    infoContainer().innerHTML = ``;
+
     const remainingCatOptions = categoryOptions.filter(category => parseInt(category.value) !== currentCategory.id);
     addCategoriesToDropdown(remainingCatOptions);
 
@@ -165,7 +170,7 @@ const editRecipeForm = (currentCategory) => {
         const currentIngredient = ingredient.innerText;
         formIngredients().innerHTML += `
             <li>
-                <textarea rows="1" cols="45">${currentIngredient}</textarea>
+                <textarea>${currentIngredient}</textarea>
             </li>
         `;
     };
@@ -173,7 +178,7 @@ const editRecipeForm = (currentCategory) => {
         const currentInstruction = instruction.innerText;
         formInstructions().innerHTML += `
             <li>
-                <br><textarea rows="3" cols="60">${currentInstruction}</textarea>
+                <textarea>${currentInstruction}</textarea>
             </li>
         `;
     };
@@ -185,29 +190,6 @@ const addEventForExtraFields = () => {
     const addInstructionBtn = formContainer().querySelector('#add-instruction');
     addIngredientBtn.addEventListener('click', addIngredient);
     addInstructionBtn.addEventListener('click', addInstruction);
-};
-
-const addIngredient = (e) => {
-    e.preventDefault();
-    const liTag = document.createElement('li');
-    const textareaTag = document.createElement('textarea');
-    textareaTag.setAttribute('name', 'ingredients[]')
-    textareaTag.setAttribute('rows', '1');
-    textareaTag.setAttribute('cols', '45');
-    liTag.append(textareaTag);
-    formIngredients().append(liTag);
-};
-
-const addInstruction = (e) => {
-    e.preventDefault();
-    const liTag = document.createElement('li');
-    const brTag = document.createElement('br');
-    const textareaTag = document.createElement('textarea');
-    textareaTag.setAttribute('name', 'instructions[]')
-    textareaTag.setAttribute('rows', '3');
-    textareaTag.setAttribute('cols', '60');
-    liTag.append(brTag, textareaTag);
-    formInstructions().append(liTag);
 };
 
 // Append ONLY
@@ -230,14 +212,29 @@ const addNewRecipe = (e) => {
     };
 };
 
+const addIngredient = (e) => {
+    const liTag = document.createElement('li');
+    const textareaTag = document.createElement('textarea');
+    textareaTag.setAttribute('name', 'ingredients[]')
+    liTag.append(textareaTag);
+    formIngredients().append(liTag);
+};
+
+const addInstruction = (e) => {
+    const liTag = document.createElement('li');
+    const textareaTag = document.createElement('textarea');
+    textareaTag.setAttribute('name', 'instructions[]')
+    liTag.append(textareaTag);
+    formInstructions().append(liTag);
+};
+
 const handleRecipeClick = (e, id) => {
     e.preventDefault();
     recipeAdapter.fetchSingleRecipe(id)
 };
 
 const handleReturnClick = (e) => {
-    e.preventDefault();
-    setPageToDefault();
+    resetPage();
     recipeAdapter.fetchAllRecipes();
 };
 

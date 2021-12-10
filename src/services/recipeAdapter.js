@@ -49,7 +49,7 @@ class RecipeAdapter {
         };
         fetch(`${this.baseURL}/${id}`, configObj)
             .then(() => {
-                setPageToDefault();
+                resetPage();
                 this.fetchAllRecipes();
             });
     };

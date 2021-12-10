@@ -13,9 +13,274 @@
 
 body {
     font-family: Quicksand;
+    font-size: 18px;
+    color: #303030;
+}
+
+hr {
+    opacity: 0.5;
+}
+
+.main {
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 1024px;
+}
+
+.header {
+    text-align: center;
+}
+
+#main-header {
+    font-family: Quicksand-Bold;
+}
+
+.main-header {
+    font-size: 48px;
+    margin-top: 45px;
+    margin-bottom: 28px;
+}
+
+.main-header-content {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+#sub-header {
+    font-size: 24px;
+    margin: 0;
+}
+
+.button {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.link {
+    margin-left: 36px;
+}
+
+#add-recipe, .form input[type="submit"], .edit, .delete {
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+    font-family: Quicksand-Bold;
+    font-size: 18px;
+    line-height: 1.33;
+    background-color: #ef7911;
+    color: #FFF;
+    border: 0;
+    cursor: pointer;
+}
+
+.return-link {
+    font-family: Quicksand-Bold;
+    font-size: 14px;
+    line-height: 1.71;
+    background-color: #fff;
+    color: #ef7911;
+    border: none;
+    cursor: pointer;
+}
+
+.content {
+    margin-left: 42px;
+    margin-right: 42px;
+}
+
+#category-header {
+    margin: 0;
+    font-family: Quicksand-Bold;
+    line-height: 1.33;
+}
+
+.category-buttons {
+    margin-top: 20px;
+    margin-right: 20px;
+    width: 140px;
+    height: 40px;
+    border-radius: 25px;
+    border: solid 1px #d8d8d8;
+    font-family: Quicksand-Bold;
+    font-size: 14px;
+    line-height: 1.71;
+    background-color: #fff;
+    cursor: pointer;
+    transition-duration: 0.2s;
 }
 
 .active {
-    background-color: black;
-    color: white;
+    background-color: #ef7911;
+    color: #fff;
+}
+
+#recipe-header {
+    margin-top: 30px;
+    font-family: Quicksand-Bold;
+    line-height: 1.33;
+}
+
+#recipes-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.recipe-link {
+    width: 298px;
+    height: 140px;
+    text-align: center;
+    border: solid 1px #d8d8d8;
+}
+
+.recipe-link a {
+    display: block;
+    padding: 50px;
+    font-family: Quicksand-Bold;
+    line-height: 1.33;
+    text-decoration: none;
+    color: #303030;
+}
+
+.form {
+    margin-left: 42px;
+    margin-right: 42px;
+}
+
+#recipe-form {
+    margin-bottom: 30px;
+}
+
+#recipe-edit-form {
+    margin-top: 15px;
+}
+
+#buttons {
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.form label {
+    font-family: Quicksand-Bold;
+    line-height: 1.33;
+}
+
+.form input[type="text"] {
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    border: solid 1px #d8d8d8;
+}
+
+.form textarea {
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: solid 1px #d8d8d8;
+    resize: none;
+}
+
+#cat-dropdown {
+    height: 45px;
+    width: 300px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 13px 20px;
+    border: solid 1px #d8d8d8;
+}
+
+#recipe-name {
+    width: 258px;
+}
+
+#recipe-description {
+    height: 60px;
+    width: 898px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#recipe-image {
+    width: 898px;
+}
+
+#recipe-ingredients, #ingredients-list {
+    margin: 0;
+    list-style-type: circle;
+}
+
+#recipe-ingredients textarea {
+    vertical-align: middle;
+    height: 25px;
+    width: 856px;
+    padding-top: 10px;
+}
+
+#recipe-instructions, #instructions-list {
+    margin: 0;
+}
+
+#recipe-instructions textarea {
+    vertical-align: middle;
+    height: 50px;
+    width: 856px;
+    padding-top: 10px;
+}
+
+#add-ingredient, #add-instruction {
+    font-family: Quicksand-Bold;
+    font-size: 14px;
+    line-height: 1.71;
+    background-color: #fff;
+    color: #ef7911;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit {
+    margin-right: 20px;
+}
+
+#add-ingredient:hover, #add-instruction:hover, #add-recipe:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover {
+    color: #303030;
+}
+
+#add-recipe:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover {
+    border: solid 1px #303030;
+}
+
+.category-buttons:hover {
+    background-color: #ef7911;
+    color: #fff;
+}
+
+.recipe-link a:hover {
+    color: #ef7911;
+}
+
+.name {
+    font-family: Quicksand-Bold;
+    font-size: 24px;
+    line-height: 1;
+}
+
+#info h4 {
+    font-family: Quicksand-Bold;
+    line-height: 1.33;
+    margin-top: 20px;
+    margin-bottom: 8px;
 }
