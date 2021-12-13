@@ -1,5 +1,5 @@
 // Intialization
-const domain = 'http://localhost:3000';
+const domain = 'http://localhost:3001';
 const categoryAdapter = new CategoryAdapter(domain);
 const recipeAdapter = new RecipeAdapter(domain);
 
