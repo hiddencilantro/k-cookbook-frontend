@@ -100,10 +100,16 @@ hr {
     line-height: 1.33;
 }
 
+#categories {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
 .category-buttons {
     margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
     width: 136px;
     height: 40px;
     border-radius: 25px;
