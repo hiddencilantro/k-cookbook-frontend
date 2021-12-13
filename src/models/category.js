@@ -32,7 +32,7 @@ const handleCategoryClick = (e, id) => {
             button.classList.remove('active');
         };
         e.target.classList.add('active');
-        const filteredRecipes = allRecipes.filter(recipe => recipe.categoryId === parseInt(id));
+        const filteredRecipes = allRecipes.filter(recipe => recipe.dataset.categoryId === id);
         recipesList().innerHTML = ``;
         filteredRecipes.forEach(recipe => appendRecipeLink(recipe));
     } else {

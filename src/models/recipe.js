@@ -14,7 +14,7 @@ let allRecipes = [];
 const createRecipeLink = (obj) => {
     const recipeName = obj.attributes.name.split(' (');
     const li = document.createElement('li');
-    li.categoryId = obj.attributes.category_id
+    li.dataset.categoryId = obj.attributes.category_id
     li.innerHTML = `
         <div class="recipe-link">
             <a href id="recipe-${obj.id}">
