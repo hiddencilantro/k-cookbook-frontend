@@ -12,11 +12,16 @@ let allRecipes = [];
 
 // Renders (Node Constructors, HTML Setters) & Event Listeners
 const createRecipeLink = (obj) => {
+    const recipeName = obj.attributes.name.split(' (');
     const li = document.createElement('li');
     li.categoryId = obj.attributes.category_id
     li.innerHTML = `
         <div class="recipe-link">
-            <a href id="recipe-${obj.id}">${obj.attributes.name}</a>
+            <a href id="recipe-${obj.id}">
+                ${recipeName[0]}
+                <br>
+                <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
+            </a>
         <div>
     `;
     allRecipes.push(li);

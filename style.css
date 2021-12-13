@@ -103,8 +103,9 @@ hr {
 
 .category-buttons {
     margin-top: 20px;
-    margin-right: 20px;
-    width: 140px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 136px;
     height: 40px;
     border-radius: 25px;
     border: solid 1px #d8d8d8;
@@ -150,6 +151,10 @@ hr {
     line-height: 1.33;
     text-decoration: none;
     color: #303030;
+}
+
+.reduce-font-size {
+    font-size: 14px;
 }
 
 .form {
