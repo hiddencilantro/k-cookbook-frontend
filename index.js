@@ -32,9 +32,9 @@ const resetPage = () => {
     formContainer().innerHTML = ``;
     contentContainer().innerHTML = `
         <hr>
-        <h4 id="category-header">Filter by Category:</h4>
+        <h4 id="category-header">View by Category:</h4>
         <div id="categories"></div>
-        <h4 id="recipe-header">All Recipes:</h4>
+        <h4 id="recipe-header">Available Recipes:</h4>
         <ul id="recipes-list"></ul>
     `;
     appendCategoryButtons(categoryButtons);
