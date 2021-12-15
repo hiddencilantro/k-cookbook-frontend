@@ -129,7 +129,7 @@ const populateInfo = ({name, description, image, ingredients, instructions}) => 
 
 const editRecipeForm = (currentCategory) => {
     // currentCategory is still previous category (as expected)
-    // but how does it still know to populate the form with the correct values? (i.e. updated values)
+    // but how does it still know to populate the form with the correct value (newly updated value) after a patch request?
     window.scrollTo(0, 0);
 
     const name = contentContainer().querySelector('h3.name')
