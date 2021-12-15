@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // Reset to default
 const resetPage = () => {
     returnLink.remove();
-    mainHeader().classList.replace('main-header-content', 'main-header')
-    headerContainer().append(subHeader)
-    addRecipeBtn.innerText = `Add a new recipe`
-    buttonContainer().classList.replace('link', 'button')
+    mainHeader().classList.replace('main-header-content', 'main-header');
+    headerContainer().append(subHeader);
+    addRecipeBtn.innerText = `Add a new recipe`;
+    buttonContainer().classList.replace('link', 'button');
     buttonContainer().append(addRecipeBtn);
     formContainer().innerHTML = ``;
     contentContainer().innerHTML = `

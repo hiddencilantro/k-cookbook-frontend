@@ -62,6 +62,7 @@ const newRecipeForm = () => {
         </form>
     `;
     addCategoriesToDropdown(categoryOptions);
+    catDropdown().selectedIndex = 0
     addEventForExtraFields();
 
     const form = formContainer().querySelector('#recipe-form');
@@ -78,11 +79,13 @@ const setReturnLink = () => {
 }
 
 const renderRecipe = (obj) => {
+    window.scrollTo(0, 0);
     subHeader.remove();
     addRecipeBtn.remove();
-    mainHeader().classList.replace('main-header', 'main-header-content')
-    buttonContainer().classList.replace('button', 'link')
-    buttonContainer().append(returnLink)
+    mainHeader().classList.replace('main-header', 'main-header-content');
+    buttonContainer().classList.replace('button', 'link');
+    buttonContainer().append(returnLink);
+    formContainer().innerHTML = ``;
     contentContainer().innerHTML = `
         <div id="info">
         </div>
@@ -101,8 +104,6 @@ const renderRecipe = (obj) => {
 };
 
 const populateInfo = ({name, description, image, ingredients, instructions}) => {
-    window.scrollTo(0, 0);
-    formContainer().innerHTML = ``;
     infoContainer().innerHTML = `
         <hr>
         <h3 class="name">${name}</h3>
@@ -128,8 +129,6 @@ const populateInfo = ({name, description, image, ingredients, instructions}) => 
 }
 
 const editRecipeForm = (currentCategory) => {
-    // currentCategory is still previous category (as expected)
-    // but how does it still know to populate the form with the correct value (newly updated value) after a patch request?
     window.scrollTo(0, 0);
 
     const name = contentContainer().querySelector('h3.name')
@@ -147,7 +146,6 @@ const editRecipeForm = (currentCategory) => {
         <form id="recipe-edit-form">
             <label for="cat-dropdown">Category:</label><br>
             <select id="cat-dropdown">
-                <option value="${currentCategory.id}">${currentCategory.name}</option>
             </select>
             <br>
             <label for="recipe-name">Name:</label><br>
@@ -166,10 +164,8 @@ const editRecipeForm = (currentCategory) => {
             <button id="add-instruction" type="button">+ Add next step</button><br>
         </form>
     `;
-    infoContainer().innerHTML = ``;
-
-    const remainingCatOptions = categoryOptions.filter(category => parseInt(category.value) !== currentCategory.id);
-    addCategoriesToDropdown(remainingCatOptions);
+    addCategoriesToDropdown(categoryOptions);
+    catDropdown().value = currentCategory.id
 
     for(const ingredient of ingredientsCollection){
         const currentIngredient = ingredient.innerText;
@@ -188,6 +184,8 @@ const editRecipeForm = (currentCategory) => {
         `;
     };
     addEventForExtraFields();
+
+    infoContainer().innerHTML = ``;
 };
 
 const addEventForExtraFields = () => {

@@ -35,10 +35,8 @@ class RecipeAdapter {
                 }
                 if(!id) {
                     createRecipeLink(json.data);
-                    renderRecipe(json.data);
-                } else {
-                    populateInfo(json.data.attributes);
                 }
+                renderRecipe(json.data);
             })
             .catch(error => alert(error));
     };
