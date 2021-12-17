@@ -39,7 +39,7 @@ class Category {
     handleCategoryClick = () => {
         let filteredCategory
         Category.all.forEach(category => {
-            if(category.button = this.button && !this.selected) {
+            if(category.button === this.button && !this.selected) {
                 category.button.classList.add('active');
                 category.selected = true;
                 filteredCategory = category;
