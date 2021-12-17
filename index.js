@@ -19,6 +19,7 @@ const contentInstructions = () => contentContainer().querySelector('#instruction
 const formIngredients = () => formContainer().querySelector('#recipe-ingredients');
 const formInstructions = () => formContainer().querySelector('#recipe-instructions');
 const catDropdown = () => formContainer().querySelector('#cat-dropdown');
+const categoryContainer = () => contentContainer().querySelector('#categories');
 const recipesList = () => contentContainer().querySelector('#recipes-list');
 
 // DOMContentLoaded

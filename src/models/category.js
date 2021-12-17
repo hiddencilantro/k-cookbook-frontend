@@ -13,9 +13,6 @@ class Category {
         Category.all.push(this)
     };
 
-    // NODE GETTERS
-    static container = contentContainer().querySelector('#categories');
-
     // RENDERS
     renderButton = () => {
         this.button.innerText = this.name;
@@ -31,7 +28,7 @@ class Category {
 
     // DOM MANIPULATIONS
     attachButton = () => {
-        Category.container.append(this.renderButton());
+        categoryContainer().append(this.renderButton());
     };
 
     attachOption = () => {
