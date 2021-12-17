@@ -3,52 +3,94 @@ class RecipeAdapter {
         this.baseURL = `${domain}/recipes`;
     };
 
-    fetchAllRecipes = () => {
+    static headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+    };
+
+    getRecipes = () => {
         fetch(this.baseURL)
             .then(resp => resp.json())
             .then(json => {
-                allRecipes = [];
-                json.data.forEach(recipe => createRecipeLink(recipe));
+                json.data.forEach(element => {
+                    const recipe = new Recipe({id: element.id, ...element.attributes});
+                    recipe.attachLink();
+                });
             });
     };
 
-    fetchSingleRecipe = (id) => {
-        fetch(`${this.baseURL}/${id}`)
-            .then(resp => resp.json())
-            .then(json => renderRecipe(json.data));
-    };
-
-    sendRecipe = (request, recipeInfo, id) => {
-        const configObj = {
-            method: request,
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(recipeInfo)
+    createRecipe = () => {
+        const ingredientsCollection = formIngredients().children;
+        const instructionsCollection = formInstructions().children;
+        const ingredients = [];
+        const instructions = [];
+        for (const li of ingredientsCollection){
+            if(li.lastElementChild.value){
+                ingredients.push(li.lastElementChild.value);
+            };
         };
-        fetch(`${this.baseURL}/${id}`, configObj)
+        for (const li of instructionsCollection){
+            if(li.lastElementChild.value){
+                instructions.push(li.lastElementChild.value);
+            };
+        };
+
+        const formData = {
+            name: formContainer().querySelector('#recipe-name').value,
+            description: formContainer().querySelector('#recipe-description').value,
+            image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
+            ingredients: ingredients,
+            instructions: instructions,
+            category_id: catDropdown().value
+        };
+
+        const initObj = {
+            method: 'POST',
+            headers: RecipeAdapter.headers,
+            body: JSON.stringify(formData)
+        };
+
+        fetch(this.baseURL, initObj)
             .then(resp => resp.json())
             .then(json => {
                 if(json.error){
                     throw new Error(json.error)
-                }
-                if(!id) {
-                    createRecipeLink(json.data);
-                }
-                renderRecipe(json.data);
+                };
+                const recipe = new Recipe({id: json.data.id, ...json.data.attributes});
+                recipe.attachInfoAndButtons();
+            })
+            .catch(error => alert(error));
+    };
+
+    sendPatch = (formData) => {
+        const dataObj = {...formData};
+        delete dataObj.id
+
+        const initObj = {
+            method: 'PATCH',
+            headers: RecipeAdapter.headers,
+            body: JSON.stringify(dataObj)
+        };
+
+        fetch(`${this.baseURL}/${formData.id}`, initObj)
+            .then(resp => resp.json())
+            .then(json => {
+                if(json.error){
+                    throw new Error(json.error)
+                };
+                const recipe = Recipe.all.find(element => element.id === json.data.id);
+                recipe = {...recipe, ...json.data.attributes};
+                recipe.attachInfo();
             })
             .catch(error => alert(error));
     };
 
     deleteRecipe = (id) => {
-        const configObj = {
-            method: 'DELETE'
-        };
-        fetch(`${this.baseURL}/${id}`, configObj)
+        fetch(`${this.baseURL}/${id}`, {method: 'DELETE'})
             .then(() => {
                 resetPage();
-                this.fetchAllRecipes();
+                Recipe.all = Recipe.all.filter(recipe => recipe.id !== id)
+                Recipe.all.forEach(recipe => recipe.attachLink())
             });
     };
 };

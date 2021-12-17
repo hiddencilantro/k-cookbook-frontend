@@ -3,12 +3,14 @@ class CategoryAdapter {
         this.baseURL = `${domain}/categories`
     };
 
-    fetchAllCategories = () => {
+    getCategories = () => {
         fetch(this.baseURL)
             .then(resp => resp.json())
             .then(json => {
-                json.data.forEach(category => createCategoryElements(category));
-                appendCategoryButtons(categoryButtons);
+                json.data.forEach(element => {
+                    const category = new Category(element.id, element.attributes.name);
+                    category.attachButton();
+                });
             });
     };
 };
