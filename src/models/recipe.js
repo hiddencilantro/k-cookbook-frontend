@@ -100,7 +100,7 @@ class Recipe {
     setPageForShow = () => {
         window.scrollTo(0, 0);
         subHeader.remove();
-        addRecipeBtn.remove();
+        newRecipeBtn.remove();
         mainHeader().classList.replace('main-header', 'main-header-content');
         buttonContainer().classList.replace('button', 'link');
         buttonContainer().append(returnLink);
