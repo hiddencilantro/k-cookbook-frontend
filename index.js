@@ -123,6 +123,7 @@ const newRecipeForm = () => {
 
 // SET PAGE TO DEFAULT
 const resetPage = () => {
+    window.scrollTo(0, 0);
     returnLink.remove();
     mainHeader().classList.replace('main-header-content', 'main-header');
     headerContainer().append(subHeader);

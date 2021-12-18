@@ -91,6 +91,7 @@ class RecipeAdapter {
                 Recipe.all = Recipe.all.filter(recipe => recipe.id !== id)
                 resetPage();
                 Recipe.all.forEach(recipe => recipe.attachLink())
+                // alert("Recipe was successfully deleted")
             });
     };
 };
