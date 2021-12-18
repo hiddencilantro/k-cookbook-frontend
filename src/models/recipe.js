@@ -80,7 +80,9 @@ class Recipe {
     renderButtons = () => {
         this.buttons.id = 'buttons';
         this.buttons.edit.classList.add('edit');
+        this.buttons.edit.innerText = 'Edit Recipe';
         this.buttons.delete.classList.add('delete');
+        this.buttons.delete.innerText = 'Delete Recipe';
         this.buttons.append(this.buttons.edit, this.buttons.delete);
         return this.buttons;
     };
