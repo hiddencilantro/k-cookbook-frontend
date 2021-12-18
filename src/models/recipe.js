@@ -152,8 +152,7 @@ class Recipe {
                 </li>
             `;
         });
-        addCategoriesToDropdown(categoryOptions);
-        catDropdown().selectedIndex = 0
+        // catDropdown().selectedIndex = 0
         initExtraFields();
 
         infoContainer().innerHTML = ``;

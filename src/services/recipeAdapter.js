@@ -88,8 +88,8 @@ class RecipeAdapter {
     deleteRecipe = (id) => {
         fetch(`${this.baseURL}/${id}`, {method: 'DELETE'})
             .then(() => {
-                resetPage();
                 Recipe.all = Recipe.all.filter(recipe => recipe.id !== id)
+                resetPage();
                 Recipe.all.forEach(recipe => recipe.attachLink())
             });
     };

@@ -110,8 +110,7 @@ const newRecipeForm = () => {
             <input type="submit" value="Submit Recipe">
         </form>
     `;
-    addCategoriesToDropdown(categoryOptions);
-    catDropdown().selectedIndex = 0
+    // catDropdown().selectedIndex = 0
     initExtraFields();
 
     const form = formContainer().querySelector('#recipe-form');
@@ -137,5 +136,9 @@ const resetPage = () => {
         <h4 id="recipe-header">Available Recipes:</h4>
         <ul id="recipes-list"></ul>
     `;
-    appendCategoryButtons(categoryButtons);
+    Category.all.forEach(category => {
+        category.button.classList.remove('active');
+        category.selected = false;
+        category.attachButton();
+    });
 };
