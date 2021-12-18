@@ -127,7 +127,7 @@ const resetPage = () => {
     mainHeader().classList.replace('main-header-content', 'main-header');
     headerContainer().append(subHeader);
     newRecipeBtn.innerText = `Add a new recipe`;
-    buttonContainer().classList.replace('link', 'button');
+    buttonContainer().classList.add('button');
     buttonContainer().append(newRecipeBtn);
     formContainer().innerHTML = ``;
     contentContainer().innerHTML = `

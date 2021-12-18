@@ -36,10 +36,10 @@ class Recipe {
 
     // RENDERS
     renderLink = () => {
-        this.link.classList.add('recipe-link');
+        this.link.classList.add('recipe-link-div');
         const recipeName = this.name.split(' (');
         this.link.innerHTML = `
-            <span class="link">
+            <span class="recipe-link">
                 ${recipeName[0]}
                 <br>
                 <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
@@ -108,7 +108,7 @@ class Recipe {
         subHeader.remove();
         newRecipeBtn.remove();
         mainHeader().classList.replace('main-header', 'main-header-content');
-        buttonContainer().classList.replace('button', 'link');
+        buttonContainer().classList.remove('button');
         buttonContainer().append(returnLink);
         formContainer().innerHTML = ``;
     };

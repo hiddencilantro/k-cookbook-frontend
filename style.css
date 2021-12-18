@@ -62,10 +62,6 @@ hr {
     text-align: center;
 }
 
-.link {
-    margin-left: 36px;
-}
-
 #recipe-button, .form input[type="submit"], .edit, .delete {
     width: 300px;
     height: 50px;
@@ -80,6 +76,7 @@ hr {
 }
 
 .return-link {
+    margin-left: 36px;
     font-family: Quicksand-Bold;
     font-size: 14px;
     line-height: 1.71;
@@ -142,7 +139,7 @@ hr {
     gap: 20px;
 }
 
-.recipe-link {
+.recipe-link-div {
     width: 298px;
     height: 100px;
     text-align: center;
@@ -153,7 +150,7 @@ hr {
     cursor: pointer;
 }
 
-.link {
+.recipe-link {
     margin: 0;
 }
 
@@ -277,7 +274,7 @@ hr {
     color: #fff;
 }
 
-.link:hover {
+.recipe-link:hover {
     color: #ef7911;
 }
 
