@@ -10,7 +10,7 @@ const formContainer = () => document.querySelector('div.form');
 const contentContainer = () => document.querySelector('div.content');
 const mainHeader = () => document.querySelector('#main-header')
 const subHeader = document.querySelector('#sub-header');
-const newRecipeBtn = document.querySelector('#add-recipe');
+const newRecipeBtn = document.querySelector('#recipe-button');
 const returnLink = document.createElement('button');
 
 const infoContainer = () => contentContainer().querySelector('#info');

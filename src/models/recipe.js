@@ -39,9 +39,11 @@ class Recipe {
         this.link.classList.add('recipe-link');
         const recipeName = this.name.split(' (');
         this.link.innerHTML = `
-            ${recipeName[0]}
-            <br>
-            <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
+            <span class="link">
+                ${recipeName[0]}
+                <br>
+                <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
+            </span>
         `;
         return this.link;
     };

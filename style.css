@@ -66,7 +66,7 @@ hr {
     margin-left: 36px;
 }
 
-#add-recipe, .form input[type="submit"], .edit, .delete {
+#recipe-button, .form input[type="submit"], .edit, .delete {
     width: 300px;
     height: 50px;
     border-radius: 25px;
@@ -144,18 +144,17 @@ hr {
 
 .recipe-link {
     width: 298px;
-    height: 140px;
+    height: 100px;
     text-align: center;
+    font-family: Quicksand-Bold;
+    line-height: 1.75;
     border: solid 1px #d8d8d8;
+    padding-top: 40px;
+    cursor: pointer;
 }
 
-.recipe-link a {
-    display: block;
-    padding: 50px;
-    font-family: Quicksand-Bold;
-    line-height: 1.33;
-    text-decoration: none;
-    color: #303030;
+.link {
+    margin: 0;
 }
 
 .reduce-font-size {
@@ -265,11 +264,11 @@ hr {
     margin-right: 20px;
 }
 
-#add-ingredient:hover, #add-instruction:hover, #add-recipe:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover {
+#add-ingredient:hover, #add-instruction:hover, #recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover {
     color: #303030;
 }
 
-#add-recipe:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover {
+#recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover {
     border: solid 1px #303030;
 }
 
@@ -278,7 +277,7 @@ hr {
     color: #fff;
 }
 
-.recipe-link a:hover {
+.link:hover {
     color: #ef7911;
 }
 
