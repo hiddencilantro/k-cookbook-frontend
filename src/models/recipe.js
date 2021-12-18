@@ -62,15 +62,17 @@ class Recipe {
                 <ol id="instructions-list">
                 </ol>
         `;
+        const ingredientsInfo = this.info.querySelector('#ingredients-list');
+        const instructionsInfo = this.info.querySelector('#instructions-list');
         this.ingredients.forEach(ingredient => {
             const li = document.createElement('li');
             li.innerText = ingredient;
-            contentIngredients().append(li);
+            ingredientsInfo.append(li);
         });
         this.instructions.forEach(instruction => {
             const li = document.createElement('li');
             li.innerText = instruction;
-            contentInstructions().append(li);
+            instructionsInfo.append(li);
         });
         return this.info;
     };
@@ -96,7 +98,7 @@ class Recipe {
     attachInfoAndButtons = () => {
         this.setPageForShow();
         contentContainer().innerHTML = ``;
-        contentContainer.append(this.renderInfo(), this.renderButtons());
+        contentContainer().append(this.renderInfo(), this.renderButtons());
     };
 
     setPageForShow = () => {
