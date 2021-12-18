@@ -110,7 +110,8 @@ const newRecipeForm = () => {
             <input type="submit" value="Submit Recipe">
         </form>
     `;
-    // catDropdown().selectedIndex = 0
+    Category.all.forEach(category => category.attachOption());
+    catDropdown().selectedIndex = 0;
     initExtraFields();
 
     const form = formContainer().querySelector('#recipe-form');
