@@ -3,14 +3,14 @@ const domain = 'http://localhost:3001';
 const categoryAdapter = new CategoryAdapter(domain);
 const recipeAdapter = new RecipeAdapter(domain);
 
-// NOTE GETTERS
+// NODE GETTERS
 const headerContainer = () => document.querySelector('div.header')
 const buttonContainer = () => document.querySelector('#button-container');
 const formContainer = () => document.querySelector('div.form');
 const contentContainer = () => document.querySelector('div.content');
 const mainHeader = () => document.querySelector('#main-header')
 const subHeader = document.querySelector('#sub-header');
-const newRecipeBtn = document.querySelector('#recipe-button');
+const recipeBtn = document.querySelector('#recipe-button');
 const returnLink = document.createElement('button');
 
 const infoContainer = () => contentContainer().querySelector('#info');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // EVENT LISTENERS
 const initRecipeBtn = () => {
-    newRecipeBtn.addEventListener('click', handleRecipeBtn);
+    recipeBtn.addEventListener('click', handleRecipeBtn);
 };
 
 const initReturnLink = () => {
@@ -127,9 +127,9 @@ const resetPage = () => {
     returnLink.remove();
     mainHeader().classList.replace('main-header-content', 'main-header');
     headerContainer().append(subHeader);
-    newRecipeBtn.innerText = `Add a new recipe`;
+    recipeBtn.innerText = `Add a new recipe`;
     buttonContainer().classList.add('button');
-    buttonContainer().append(newRecipeBtn);
+    buttonContainer().append(recipeBtn);
     formContainer().innerHTML = ``;
     contentContainer().innerHTML = `
         <hr>
