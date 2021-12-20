@@ -78,9 +78,14 @@ class RecipeAdapter {
                 if(json.error){
                     throw new Error(json.error)
                 };
-                const recipe = Recipe.all.find(element => element.id === json.data.id);
-                recipe = {...recipe, ...json.data.attributes};
-                recipe.attachInfo();
+                Recipe.all = Recipe.all.map(recipe => {
+                    if(recipe.id === json.data.id) {
+                        const updatedRecipe = new Recipe({id: json.data.id, ...json.data.attributes});
+                        updatedRecipe.attachInfo();
+                        return updatedRecipe;
+                    };
+                    return recipe;
+                });
             })
             .catch(error => alert(error));
     };

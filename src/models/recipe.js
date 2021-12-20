@@ -94,7 +94,7 @@ class Recipe {
 
     attachInfo = () => {
         this.setPageForShow();
-        contentContainer.prepend(this.renderInfo());
+        contentContainer().prepend(this.renderInfo());
     };
 
     attachInfoAndButtons = () => {
@@ -152,7 +152,7 @@ class Recipe {
                 </li>
             `;
         });
-        // catDropdown().selectedIndex = 0
+        // Category.all.forEach(category => category.attachOption());
         initExtraFields();
 
         infoContainer().innerHTML = ``;
