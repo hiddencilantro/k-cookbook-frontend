@@ -91,10 +91,13 @@ hr {
     margin-right: 42px;
 }
 
-#category-header {
-    margin: 0;
+h4 {
     font-family: Quicksand-Bold;
     line-height: 1.33;
+}
+
+#category-header {
+    margin: 0;
 }
 
 #categories {
@@ -126,8 +129,6 @@ hr {
 
 #recipe-header {
     margin-top: 30px;
-    font-family: Quicksand-Bold;
-    line-height: 1.33;
 }
 
 #recipes-list {
@@ -285,8 +286,6 @@ hr {
 }
 
 #info h4 {
-    font-family: Quicksand-Bold;
-    line-height: 1.33;
     margin-top: 20px;
     margin-bottom: 8px;
 }
