@@ -203,16 +203,28 @@ class Recipe {
     static handleAddIngredient = (e) => {
         const li = document.createElement('li');
         const textarea = document.createElement('textarea');
-        textarea.setAttribute('name', 'ingredients[]')
-        li.append(textarea);
+        textarea.setAttribute('name', 'ingredients[]');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.innerText = 'X';
+        button.addEventListener('click', (e) => {
+            e.target.parentElement.remove();
+        });
+        li.append(textarea, button);
         Recipe.ingredients().append(li);
     };
     
     static handleAddInstruction = (e) => {
         const li = document.createElement('li');
         const textarea = document.createElement('textarea');
-        textarea.setAttribute('name', 'instructions[]')
-        li.append(textarea);
+        textarea.setAttribute('name', 'instructions[]');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.innerText = 'X';
+        button.addEventListener('click', (e) => {
+            e.target.parentElement.remove();
+        });
+        li.append(textarea, button);
         Recipe.instructions().append(li);
     };
 

@@ -231,8 +231,18 @@ h4 {
 #recipe-ingredients textarea {
     vertical-align: middle;
     height: 25px;
-    width: 856px;
+    width: 829px;
     padding-top: 10px;
+}
+
+#recipe-ingredients button, #recipe-instructions button {
+    font-family: Quicksand-Bold;
+    font-size: 14px;
+    margin-left: 5px;
+    background-color: #FFF;
+    color: #ef7911;
+    border: dotted 1px;
+    cursor: pointer;
 }
 
 #recipe-instructions, #instructions-list {
@@ -242,7 +252,7 @@ h4 {
 #recipe-instructions textarea {
     vertical-align: middle;
     height: 50px;
-    width: 856px;
+    width: 829px;
     padding-top: 10px;
 }
 
@@ -262,7 +272,7 @@ h4 {
     margin-right: 20px;
 }
 
-#add-ingredient:hover, #add-instruction:hover, #recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover {
+#add-ingredient:hover, #add-instruction:hover, #recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover, #recipe-ingredients button:hover, #recipe-instructions button:hover {
     color: #303030;
 }
 
