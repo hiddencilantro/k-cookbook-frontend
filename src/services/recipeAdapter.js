@@ -3,23 +3,7 @@ class RecipeAdapter {
         this.baseURL = `${domain}/recipes`;
     };
 
-    static headers = {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-    };
-
-    getRecipes = () => {
-        fetch(this.baseURL)
-            .then(resp => resp.json())
-            .then(json => {
-                json.data.forEach(element => {
-                    const recipe = new Recipe({id: element.id, ...element.attributes});
-                    recipe.attachLink();
-                });
-            });
-    };
-
-    createRecipe = () => {
+    static setDataObj = () => {
         const ingredientsCollection = Recipe.ingredients().children;
         const instructionsCollection = Recipe.instructions().children;
         const ingredients = [];
@@ -34,8 +18,7 @@ class RecipeAdapter {
                 instructions.push(li.lastElementChild.value);
             };
         };
-
-        const formData = {
+        const dataObj = {
             name: formContainer().querySelector('#recipe-name').value,
             eng_name: formContainer().querySelector('#recipe-eng-name').value,
             description: formContainer().querySelector('#recipe-description').value,
@@ -44,14 +27,33 @@ class RecipeAdapter {
             instructions: instructions,
             category_id: Category.dropdown().value
         };
-
+        return dataObj;
+    };
+    static setInitObj = (method) => {
         const initObj = {
-            method: 'POST',
-            headers: RecipeAdapter.headers,
-            body: JSON.stringify(formData)
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(RecipeAdapter.setDataObj())
         };
+        return initObj;
+    };
 
-        fetch(this.baseURL, initObj)
+    getRecipes = () => {
+        fetch(this.baseURL)
+            .then(resp => resp.json())
+            .then(json => {
+                json.data.forEach(element => {
+                    const recipe = new Recipe({id: element.id, ...element.attributes});
+                    recipe.attachLink();
+                });
+            });
+    };
+
+    createRecipe = () => {
+        fetch(this.baseURL, RecipeAdapter.setInitObj('POST'))
             .then(resp => resp.json())
             .then(json => {
                 if(json.error){
@@ -63,17 +65,8 @@ class RecipeAdapter {
             .catch(error => alert(error));
     };
 
-    updateRecipe = (formData) => {
-        const dataObj = {...formData};
-        delete dataObj.id
-
-        const initObj = {
-            method: 'PATCH',
-            headers: RecipeAdapter.headers,
-            body: JSON.stringify(dataObj)
-        };
-
-        fetch(`${this.baseURL}/${formData.id}`, initObj)
+    updateRecipe = (id) => {
+        fetch(`${this.baseURL}/${id}`, RecipeAdapter.setInitObj('PATCH'))
             .then(resp => resp.json())
             .then(json => {
                 if(json.error){

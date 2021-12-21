@@ -191,36 +191,6 @@ class Recipe {
         this.info.remove();
     };
 
-    updateRecipe = () => {
-        const ingredientsCollection = Recipe.ingredients().children;
-        const instructionsCollection = Recipe.instructions().children;
-        const ingredients = [];
-        const instructions = [];
-        for (const li of ingredientsCollection){
-            if(li.lastElementChild.value){
-                ingredients.push(li.lastElementChild.value);
-            };
-        };
-        for (const li of instructionsCollection){
-            if(li.lastElementChild.value){
-                instructions.push(li.lastElementChild.value);
-            };
-        };
-
-        const formData = {
-            id: this.id,
-            name: formContainer().querySelector('#recipe-name').value,
-            eng_name: formContainer().querySelector('#recipe-eng-name').value,
-            description: formContainer().querySelector('#recipe-description').value,
-            image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
-            ingredients: ingredients,
-            instructions: instructions,
-            category_id: Category.dropdown().value
-        };
-
-        recipeAdapter.updateRecipe(formData);
-    };
-
     // EVENT LISTENERS
     static initExtraFields = () => {
         const addIngredientBtn = formContainer().querySelector('#add-ingredient');
@@ -256,7 +226,7 @@ class Recipe {
             this.editRecipe();
         } else if (e.target.innerText === `Save Recipe`) {
             e.target.innerText = `Edit Recipe`;
-            this.updateRecipe();
+            recipeAdapter.updateRecipe(this.id);
         };
     };
 
