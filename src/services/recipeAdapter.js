@@ -63,7 +63,7 @@ class RecipeAdapter {
             .catch(error => alert(error));
     };
 
-    sendPatch = (formData) => {
+    updateRecipe = (formData) => {
         const dataObj = {...formData};
         delete dataObj.id
 

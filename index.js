@@ -30,67 +30,23 @@ const initRecipeBtn = () => {
 const initReturnLink = () => {
     returnLink.innerText = `Return to Recipes`;
     returnLink.classList.add('return-link');
-    returnLink.addEventListener('click', handleReturnClick);
+    returnLink.addEventListener('click', handleReturnLink);
 };
 
 // EVENT HANDLERS
 const handleRecipeBtn = (e) => {
     if (e.target.innerText === `Add a new recipe`) {
         e.target.innerText = `Hide form`;
-        newRecipeForm();
+        Recipe.newRecipe();
     } else if (e.target.innerText === `Hide form`) {
         e.target.innerText = `Add a new recipe`;
         formContainer().innerHTML = ``;
     };
 };
 
-const handleReturnClick = (e) => {
+const handleReturnLink = (e) => {
     resetPage();
     Recipe.all.forEach(recipe => recipe.attachLink());
-};
-
-// RENDER NEW RECIPE FORM
-const newRecipeForm = () => {
-    formContainer().innerHTML = `
-        <form id="recipe-form">
-            <label for="cat-dropdown">Category:</label><br>
-            <select id="cat-dropdown">
-                <option>Select a category</option>
-            </select>
-            <br>
-            <label for="recipe-name">Recipe Name:</label><br>
-            <input type="text" id="recipe-name">
-            <input type="text" id="recipe-eng-name" placeholder="English Translation (optional)"><br>
-            <label for="recipe-description">Description:</label><br>
-            <textarea id="recipe-description"></textarea><br>
-            <label for="recipe-image">Image URL:</label><br>
-            <input type="text" id="recipe-image"><br>
-            <label for="recipe-ingredients">Ingredients:</label>
-            <ul id="recipe-ingredients">
-                <li>
-                    <textarea></textarea>
-                </li>
-            </ul>
-            <button id="add-ingredient" type="button">+ Add another ingredient</button><br>
-            <label for="recipe-instructions">Instructions:</label>
-            <ol id="recipe-instructions">
-                <li>
-                    <textarea></textarea>
-                </li>
-            </ol>
-            <button id="add-instruction" type="button">+ Add next step</button><br>
-            <input type="submit" value="Submit Recipe">
-        </form>
-    `;
-    Category.all.forEach(category => category.attachOption());
-    Category.dropdown().selectedIndex = 0;
-    Recipe.initExtraFields();
-
-    const form = formContainer().querySelector('#recipe-form');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        recipeAdapter.createRecipe();
-    });
 };
 
 // SET PAGE TO DEFAULT
