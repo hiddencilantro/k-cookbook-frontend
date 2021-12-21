@@ -13,7 +13,6 @@ const subHeader = document.querySelector('#sub-header');
 const recipeBtn = document.querySelector('#recipe-button');
 const returnLink = document.createElement('button');
 
-const infoContainer = () => contentContainer().querySelector('#info');
 const formIngredients = () => formContainer().querySelector('#recipe-ingredients');
 const formInstructions = () => formContainer().querySelector('#recipe-instructions');
 const catDropdown = () => formContainer().querySelector('#cat-dropdown');

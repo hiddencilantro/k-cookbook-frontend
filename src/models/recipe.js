@@ -92,14 +92,8 @@ class Recipe {
         recipesList().append(this.renderLink());
     };
 
-    attachInfo = () => {
+    attachShow = () => {
         this.setPageForShow();
-        contentContainer().prepend(this.renderInfo());
-    };
-
-    attachInfoAndButtons = () => {
-        this.setPageForShow();
-        contentContainer().innerHTML = ``;
         contentContainer().append(this.renderInfo(), this.renderButtons());
     };
 
@@ -111,6 +105,7 @@ class Recipe {
         buttonContainer().classList.remove('button');
         buttonContainer().append(returnLink);
         formContainer().innerHTML = ``;
+        contentContainer().innerHTML = ``;
     };
 
     setPageForEdit = () => {
@@ -152,10 +147,11 @@ class Recipe {
                 </li>
             `;
         });
-        // Category.all.forEach(category => category.attachOption());
+        Category.all.forEach(category => category.attachOption());
+        catDropdown().value = this.categoryId;
         initExtraFields();
 
-        infoContainer().innerHTML = ``;
+        this.info.remove();
     };
 
     // EDIT RECIPE
@@ -190,7 +186,7 @@ class Recipe {
 
     // EVENT HANDLERS
     handleRecipeClick = (e) => {
-        this.attachInfoAndButtons();
+        this.attachShow();
     };
 
     handleEditOrSave = (e) => {
