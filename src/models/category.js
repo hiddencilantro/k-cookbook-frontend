@@ -1,7 +1,5 @@
 class Category {
     static all = [];
-    static container = () => contentContainer().querySelector('#categories');
-    static dropdown = () => formContainer().querySelector('#cat-dropdown');
 
     constructor(id, name) {
         this.id = id;
@@ -14,6 +12,10 @@ class Category {
 
         Category.all.push(this)
     };
+
+    // NODE GETTERS
+    static container = () => contentContainer().querySelector('#categories');
+    static dropdown = () => formContainer().querySelector('#cat-dropdown');
 
     // RENDERS
     renderButton = () => {

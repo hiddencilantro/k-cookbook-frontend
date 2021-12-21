@@ -221,6 +221,14 @@ class Recipe {
         recipeAdapter.updateRecipe(formData);
     };
 
+    // EVENT LISTENERS
+    static initExtraFields = () => {
+        const addIngredientBtn = formContainer().querySelector('#add-ingredient');
+        const addInstructionBtn = formContainer().querySelector('#add-instruction');
+        addIngredientBtn.addEventListener('click', Recipe.handleAddIngredient);
+        addInstructionBtn.addEventListener('click', Recipe.handleAddInstruction);
+    };
+
     // EVENT HANDLERS
     static handleAddIngredient = (e) => {
         const li = document.createElement('li');
@@ -259,13 +267,6 @@ class Recipe {
     };
 
     // MISC
-    static initExtraFields = () => {
-        const addIngredientBtn = formContainer().querySelector('#add-ingredient');
-        const addInstructionBtn = formContainer().querySelector('#add-instruction');
-        addIngredientBtn.addEventListener('click', Recipe.handleAddIngredient);
-        addInstructionBtn.addEventListener('click', Recipe.handleAddInstruction);
-    };
-
     static filterByCategory(category) {
         if(category) {
             const filteredResults = Recipe.all.filter(recipe => recipe.categoryId === parseInt(category.id));
