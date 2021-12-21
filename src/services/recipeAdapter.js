@@ -37,6 +37,7 @@ class RecipeAdapter {
 
         const formData = {
             name: formContainer().querySelector('#recipe-name').value,
+            eng_name: formContainer().querySelector('#recipe-eng-name').value,
             description: formContainer().querySelector('#recipe-description').value,
             image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
             ingredients: ingredients,

@@ -86,8 +86,9 @@ const newRecipeForm = () => {
                 <option>Select a category</option>
             </select>
             <br>
-            <label for="recipe-name">Name:</label><br>
-            <input type="text" id="recipe-name"><br>
+            <label for="recipe-name">Recipe Name:</label><br>
+            <input type="text" id="recipe-name">
+            <input type="text" id="recipe-eng-name" placeholder="English Translation (optional)"><br>
             <label for="recipe-description">Description:</label><br>
             <textarea id="recipe-description"></textarea><br>
             <label for="recipe-image">Image URL:</label><br>

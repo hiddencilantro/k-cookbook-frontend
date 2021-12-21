@@ -207,7 +207,7 @@ h4 {
     border: solid 1px #d8d8d8;
 }
 
-#recipe-name {
+#recipe-name, #recipe-eng-name {
     width: 258px;
 }
 

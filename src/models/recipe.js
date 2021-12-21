@@ -1,9 +1,10 @@
 class Recipe {
     static all = [];
     
-    constructor({id, name, description, image, ingredients, instructions, category_id}) {
+    constructor({id, name, eng_name, description, image, ingredients, instructions, category_id}) {
         this.id = id;
         this.name = name;
+        this.engName = eng_name ? eng_name : "";
         this.description = description;
         this.image = image;
         this.ingredients = ingredients;
@@ -37,12 +38,11 @@ class Recipe {
     // RENDERS
     renderLink = () => {
         this.link.classList.add('recipe-link-div');
-        const recipeName = this.name.split(' (');
         this.link.innerHTML = `
             <span class="recipe-link">
-                ${recipeName[0]}
+                ${this.name}
                 <br>
-                <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
+                <span class="reduce-font-size">${this.engName}</span>
             </span>
         `;
         return this.link;
@@ -52,7 +52,7 @@ class Recipe {
         this.info.id = 'info';
         this.info.innerHTML = `
             <hr>
-            <h3 class="name">${this.name}</h3>
+            <h3 class="name">${this.name} ${this.engName ? "(" + this.engName + ")" : this.engName}</h3>
             <p class="description">${this.description}</p>
             <img class="image" src="${this.image}" width="300">
             <h4>Ingredients</h4>
@@ -117,8 +117,9 @@ class Recipe {
                 <select id="cat-dropdown">
                 </select>
                 <br>
-                <label for="recipe-name">Name:</label><br>
-                <input type="text" id="recipe-name" value="${this.name}"><br>
+                <label for="recipe-name">Recipe Name:</label><br>
+                <input type="text" id="recipe-name" value="${this.name}">
+                <input type="text" id="recipe-eng-name" placeholder="English Translation (optional)" value="${this.engName}"><br>
                 <label for="recipe-description">Description:</label><br>
                 <textarea id="recipe-description">${this.description}</textarea><br>
                 <label for="recipe-image">Image URL:</label><br>
@@ -174,6 +175,7 @@ class Recipe {
         const formData = {
             id: this.id,
             name: formContainer().querySelector('#recipe-name').value,
+            eng_name: formContainer().querySelector('#recipe-eng-name').value,
             description: formContainer().querySelector('#recipe-description').value,
             image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
             ingredients: ingredients,
