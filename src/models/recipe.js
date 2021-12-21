@@ -1,8 +1,5 @@
 class Recipe {
     static all = [];
-    static list = () => contentContainer().querySelector('#recipes-list');
-    static ingredients = () => formContainer().querySelector('#recipe-ingredients');
-    static instructions = () => formContainer().querySelector('#recipe-instructions');
     
     constructor({id, name, eng_name, description, image, ingredients, instructions, category_id}) {
         this.id = id;
@@ -26,17 +23,10 @@ class Recipe {
         Recipe.all.push(this);
     };
 
-    // OTHER
-    static filterByCategory(category) {
-        if(category) {
-            const filteredResults = Recipe.all.filter(recipe => recipe.categoryId === parseInt(category.id));
-            Recipe.list().innerHTML = ``;
-            filteredResults.forEach(recipe => recipe.attachLink());
-        } else {
-            Recipe.list().innerHTML = ``;
-            Recipe.all.forEach(recipe => recipe.attachLink());
-        };
-    };
+    // NODE GETTERS
+    static list = () => contentContainer().querySelector('#recipes-list');
+    static ingredients = () => formContainer().querySelector('#recipe-ingredients');
+    static instructions = () => formContainer().querySelector('#recipe-instructions');
 
     // RENDERS
     renderLink = () => {
@@ -153,7 +143,7 @@ class Recipe {
         });
         Category.all.forEach(category => category.attachOption());
         Category.dropdown().value = this.categoryId;
-        initExtraFields();
+        Recipe.initExtraFields();
 
         this.info.remove();
     };
@@ -190,6 +180,22 @@ class Recipe {
     };
 
     // EVENT HANDLERS
+    static handleAddIngredient = (e) => {
+        const li = document.createElement('li');
+        const textarea = document.createElement('textarea');
+        textarea.setAttribute('name', 'ingredients[]')
+        li.append(textarea);
+        Recipe.ingredients().append(li);
+    };
+    
+    static handleAddInstruction = (e) => {
+        const li = document.createElement('li');
+        const textarea = document.createElement('textarea');
+        textarea.setAttribute('name', 'instructions[]')
+        li.append(textarea);
+        Recipe.instructions().append(li);
+    };
+
     handleRecipeClick = (e) => {
         this.attachShow();
     };
@@ -208,5 +214,24 @@ class Recipe {
         if(confirm('Are you sure you want to delete this recipe?')){
             recipeAdapter.deleteRecipe(this.id);
         }; 
+    };
+
+    // MISC
+    static initExtraFields = () => {
+        const addIngredientBtn = formContainer().querySelector('#add-ingredient');
+        const addInstructionBtn = formContainer().querySelector('#add-instruction');
+        addIngredientBtn.addEventListener('click', Recipe.handleAddIngredient);
+        addInstructionBtn.addEventListener('click', Recipe.handleAddInstruction);
+    };
+
+    static filterByCategory(category) {
+        if(category) {
+            const filteredResults = Recipe.all.filter(recipe => recipe.categoryId === parseInt(category.id));
+            Recipe.list().innerHTML = ``;
+            filteredResults.forEach(recipe => recipe.attachLink());
+        } else {
+            Recipe.list().innerHTML = ``;
+            Recipe.all.forEach(recipe => recipe.attachLink());
+        };
     };
 };

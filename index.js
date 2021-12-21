@@ -33,13 +33,6 @@ const initReturnLink = () => {
     returnLink.addEventListener('click', handleReturnClick);
 };
 
-const initExtraFields = () => {
-    const addIngredientBtn = formContainer().querySelector('#add-ingredient');
-    const addInstructionBtn = formContainer().querySelector('#add-instruction');
-    addIngredientBtn.addEventListener('click', handleAddIngredient);
-    addInstructionBtn.addEventListener('click', handleAddInstruction);
-};
-
 // EVENT HANDLERS
 const handleRecipeBtn = (e) => {
     if (e.target.innerText === `Add a new recipe`) {
@@ -54,22 +47,6 @@ const handleRecipeBtn = (e) => {
 const handleReturnClick = (e) => {
     resetPage();
     Recipe.all.forEach(recipe => recipe.attachLink());
-};
-
-const handleAddIngredient = (e) => {
-    const li = document.createElement('li');
-    const textarea = document.createElement('textarea');
-    textarea.setAttribute('name', 'ingredients[]')
-    li.append(textarea);
-    Recipe.ingredients().append(li);
-};
-
-const handleAddInstruction = (e) => {
-    const li = document.createElement('li');
-    const textarea = document.createElement('textarea');
-    textarea.setAttribute('name', 'instructions[]')
-    li.append(textarea);
-    Recipe.instructions().append(li);
 };
 
 // RENDER NEW RECIPE FORM
@@ -107,7 +84,7 @@ const newRecipeForm = () => {
     `;
     Category.all.forEach(category => category.attachOption());
     Category.dropdown().selectedIndex = 0;
-    initExtraFields();
+    Recipe.initExtraFields();
 
     const form = formContainer().querySelector('#recipe-form');
     form.addEventListener('submit', (e) => {
