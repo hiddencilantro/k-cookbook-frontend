@@ -8,16 +8,11 @@ const headerContainer = () => document.querySelector('div.header')
 const buttonContainer = () => document.querySelector('#button-container');
 const formContainer = () => document.querySelector('div.form');
 const contentContainer = () => document.querySelector('div.content');
+
 const mainHeader = () => document.querySelector('#main-header')
 const subHeader = document.querySelector('#sub-header');
 const recipeBtn = document.querySelector('#recipe-button');
 const returnLink = document.createElement('button');
-
-const formIngredients = () => formContainer().querySelector('#recipe-ingredients');
-const formInstructions = () => formContainer().querySelector('#recipe-instructions');
-const catDropdown = () => formContainer().querySelector('#cat-dropdown');
-const categoryContainer = () => contentContainer().querySelector('#categories');
-const recipesList = () => contentContainer().querySelector('#recipes-list');
 
 // DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,7 +61,7 @@ const handleAddIngredient = (e) => {
     const textarea = document.createElement('textarea');
     textarea.setAttribute('name', 'ingredients[]')
     li.append(textarea);
-    formIngredients().append(li);
+    Recipe.ingredients().append(li);
 };
 
 const handleAddInstruction = (e) => {
@@ -74,7 +69,7 @@ const handleAddInstruction = (e) => {
     const textarea = document.createElement('textarea');
     textarea.setAttribute('name', 'instructions[]')
     li.append(textarea);
-    formInstructions().append(li);
+    Recipe.instructions().append(li);
 };
 
 // RENDER NEW RECIPE FORM
@@ -111,7 +106,7 @@ const newRecipeForm = () => {
         </form>
     `;
     Category.all.forEach(category => category.attachOption());
-    catDropdown().selectedIndex = 0;
+    Category.dropdown().selectedIndex = 0;
     initExtraFields();
 
     const form = formContainer().querySelector('#recipe-form');

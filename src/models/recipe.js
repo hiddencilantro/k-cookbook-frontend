@@ -1,5 +1,8 @@
 class Recipe {
     static all = [];
+    static list = () => contentContainer().querySelector('#recipes-list');
+    static ingredients = () => formContainer().querySelector('#recipe-ingredients');
+    static instructions = () => formContainer().querySelector('#recipe-instructions');
     
     constructor({id, name, eng_name, description, image, ingredients, instructions, category_id}) {
         this.id = id;
@@ -27,10 +30,10 @@ class Recipe {
     static filterByCategory(category) {
         if(category) {
             const filteredResults = Recipe.all.filter(recipe => recipe.categoryId === parseInt(category.id));
-            recipesList().innerHTML = ``;
+            Recipe.list().innerHTML = ``;
             filteredResults.forEach(recipe => recipe.attachLink());
         } else {
-            recipesList().innerHTML = ``;
+            Recipe.list().innerHTML = ``;
             Recipe.all.forEach(recipe => recipe.attachLink());
         };
     };
@@ -62,17 +65,17 @@ class Recipe {
                 <ol id="instructions-list">
                 </ol>
         `;
-        const ingredientsInfo = this.info.querySelector('#ingredients-list');
-        const instructionsInfo = this.info.querySelector('#instructions-list');
+        const ingredientsList = this.info.querySelector('#ingredients-list');
+        const instructionsList = this.info.querySelector('#instructions-list');
         this.ingredients.forEach(ingredient => {
             const li = document.createElement('li');
             li.innerText = ingredient;
-            ingredientsInfo.append(li);
+            ingredientsList.append(li);
         });
         this.instructions.forEach(instruction => {
             const li = document.createElement('li');
             li.innerText = instruction;
-            instructionsInfo.append(li);
+            instructionsList.append(li);
         });
         return this.info;
     };
@@ -89,7 +92,7 @@ class Recipe {
 
     // DOM MANIPULATIONS
     attachLink = () => {
-        recipesList().append(this.renderLink());
+        Recipe.list().append(this.renderLink());
     };
 
     attachShow = () => {
@@ -135,21 +138,21 @@ class Recipe {
             </form>
         `;
         this.ingredients.forEach(ingredient => {
-            formIngredients().innerHTML += `
+            Recipe.ingredients().innerHTML += `
                 <li>
                     <textarea>${ingredient}</textarea>
                 </li>
             `;
         });
         this.instructions.forEach(instruction => {
-            formInstructions().innerHTML += `
+            Recipe.instructions().innerHTML += `
                 <li>
                     <textarea>${instruction}</textarea>
                 </li>
             `;
         });
         Category.all.forEach(category => category.attachOption());
-        catDropdown().value = this.categoryId;
+        Category.dropdown().value = this.categoryId;
         initExtraFields();
 
         this.info.remove();
@@ -157,8 +160,8 @@ class Recipe {
 
     // EDIT RECIPE
     editRecipe = () => {
-        const ingredientsCollection = formIngredients().children;
-        const instructionsCollection = formInstructions().children;
+        const ingredientsCollection = Recipe.ingredients().children;
+        const instructionsCollection = Recipe.instructions().children;
         const ingredients = [];
         const instructions = [];
         for (const li of ingredientsCollection){
@@ -180,7 +183,7 @@ class Recipe {
             image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
             ingredients: ingredients,
             instructions: instructions,
-            category_id: catDropdown().value
+            category_id: Category.dropdown().value
         };
 
         recipeAdapter.sendPatch(formData);

@@ -1,5 +1,7 @@
 class Category {
     static all = [];
+    static container = () => contentContainer().querySelector('#categories');
+    static dropdown = () => formContainer().querySelector('#cat-dropdown');
 
     constructor(id, name) {
         this.id = id;
@@ -28,11 +30,11 @@ class Category {
 
     // DOM MANIPULATIONS
     attachButton = () => {
-        categoryContainer().append(this.renderButton());
+        Category.container().append(this.renderButton());
     };
 
     attachOption = () => {
-        catDropdown().append(this.renderOption());
+        Category.dropdown().append(this.renderOption());
     };
 
     // EVENT HANDLERS

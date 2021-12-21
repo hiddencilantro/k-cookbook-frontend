@@ -20,8 +20,8 @@ class RecipeAdapter {
     };
 
     createRecipe = () => {
-        const ingredientsCollection = formIngredients().children;
-        const instructionsCollection = formInstructions().children;
+        const ingredientsCollection = Recipe.ingredients().children;
+        const instructionsCollection = Recipe.instructions().children;
         const ingredients = [];
         const instructions = [];
         for (const li of ingredientsCollection){
@@ -42,7 +42,7 @@ class RecipeAdapter {
             image: !!formContainer().querySelector('#recipe-image').value ? formContainer().querySelector('#recipe-image').value : "https://blog.nscsports.org/wp-content/uploads/2014/10/default-img.gif",
             ingredients: ingredients,
             instructions: instructions,
-            category_id: catDropdown().value
+            category_id: Category.dropdown().value
         };
 
         const initObj = {
