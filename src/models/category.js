@@ -7,7 +7,7 @@ class Category {
         this.selected = false;
 
         this.button = document.createElement('button');
-        this.button.addEventListener('click', this.handleCategoryClick)
+        this.button.addEventListener('click', this.handleCategoryButton)
         this.option = document.createElement('option');
 
         Category.all.push(this)
@@ -40,7 +40,7 @@ class Category {
     };
 
     // EVENT HANDLERS
-    handleCategoryClick = () => {
+    handleCategoryButton = () => {
         let filteredCategory
         Category.all.forEach(category => {
             if(category.button === this.button && !this.selected) {
