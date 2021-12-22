@@ -12,15 +12,14 @@ let allRecipes = [];
 
 // Renders (Node Constructors, HTML Setters) & Event Listeners
 const createRecipeLink = (obj) => {
-    const recipeName = obj.attributes.name.split(' (');
     const li = document.createElement('li');
     li.dataset.categoryId = obj.attributes.category_id
     li.innerHTML = `
         <div class="recipe-link">
             <a href id="recipe-${obj.id}">
-                ${recipeName[0]}
+                ${obj.attributes.name}
                 <br>
-                <span class="reduce-font-size">${recipeName[1].slice(0,-1)}</span>
+                <span class="reduce-font-size">${obj.attributes.eng_name}</span>
             </a>
         <div>
     `;
