@@ -1,5 +1,6 @@
 class Category {
     static all = [];
+    static filteredCategories = [];
 
     constructor(id, name) {
         this.id = id;
@@ -41,17 +42,18 @@ class Category {
 
     // EVENT HANDLERS
     handleCategoryButton = () => {
-        let filteredCategory
         Category.all.forEach(category => {
             if(category.button === this.button && !this.selected) {
                 category.button.classList.add('active');
                 category.selected = true;
-                filteredCategory = category;
-            } else {
+                Category.filteredCategories.push(category);
+                Recipe.filterByCategory(Category.filteredCategories);
+            } else if(category.button === this.button && this.selected) {
                 category.button.classList.remove('active');
                 category.selected = false;
+                Category.filteredCategories = Category.filteredCategories.filter(category => category !== this);
+                Recipe.filterByCategory(Category.filteredCategories);
             };
         });
-        Recipe.filterByCategory(filteredCategory);
     };
 };

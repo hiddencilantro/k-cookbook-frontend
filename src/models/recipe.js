@@ -249,9 +249,15 @@ class Recipe {
     };
 
     // MISC
-    static filterByCategory(category) {
-        if(category) {
-            const filteredResults = Recipe.all.filter(recipe => recipe.categoryId === parseInt(category.id));
+    static filterByCategory(categories) {
+        if(categories.length) {
+            const filteredResults = Recipe.all.filter(recipe => {
+                for(const category of categories) {
+                    if(parseInt(category.id) === recipe.categoryId) {
+                        return true;
+                    };
+                };
+            });
             Recipe.list().innerHTML = ``;
             filteredResults.forEach(recipe => recipe.attachLink());
         } else {

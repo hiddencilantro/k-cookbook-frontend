@@ -71,4 +71,5 @@ const resetPage = () => {
         category.selected = false;
         category.attachButton();
     });
+    Category.filteredCategories = [];
 };
