@@ -34,4 +34,4 @@ This project is under exclusive copyright and is currently not offering any lice
 ## Links
 [Blog](https://dev.to/hiddencilantro/the-chronicles-of-a-rookie-developer-javascript-insights-2jm0)
 
-[Video]()
+[Video demo]()
