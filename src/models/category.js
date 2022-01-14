@@ -1,14 +1,14 @@
 class Category {
     static all = [];
-    static filteredCategories = [];
 
-    constructor(id, name) {
+    constructor(id, name, recipes) {
         this.id = id;
         this.name = name;
+        this.recipes = recipes;
         this.selected = false;
 
         this.button = document.createElement('button');
-        this.button.addEventListener('click', this.handleCategoryButton)
+        this.button.addEventListener('click', this.handleCategoryButton);
         this.option = document.createElement('option');
 
         Category.all.push(this)
@@ -31,6 +31,13 @@ class Category {
         return this.option;
     };
 
+    static renderNewOption = () => {
+        const option = document.createElement('option');
+        option.innerText = `--- CREATE A NEW CATEGORY ---`;
+        option.value = `new`;
+        return option;
+    }
+
     // DOM MANIPULATIONS
     attachButton = () => {
         Category.container().append(this.renderButton());
@@ -42,18 +49,23 @@ class Category {
 
     // EVENT HANDLERS
     handleCategoryButton = () => {
-        Category.all.forEach(category => {
-            if(category.button === this.button && !this.selected) {
-                category.button.classList.add('active');
-                category.selected = true;
-                Category.filteredCategories.push(category);
-                Recipe.filterByCategory(Category.filteredCategories);
-            } else if(category.button === this.button && this.selected) {
-                category.button.classList.remove('active');
-                category.selected = false;
-                Category.filteredCategories = Category.filteredCategories.filter(category => category !== this);
-                Recipe.filterByCategory(Category.filteredCategories);
-            };
-        });
+        Recipe.list().innerHTML = ``;
+
+        if(!this.selected) {
+            this.button.classList.add('active');
+            this.selected = true;
+            this.recipes.forEach(recipe => Recipe.selectedRecipes.push(recipe));
+        } else if(this.selected) {
+            this.button.classList.remove('active');
+            this.selected = false;
+            this.recipes.forEach(recipe => {
+                Recipe.selectedRecipes = Recipe.selectedRecipes.filter(existing => existing !== recipe)
+            });
+        };
+        Recipe.selectedRecipes.sort(alphabetically).forEach(recipe => recipe.attachLink());
+
+        if(!Category.all.some(category => category.selected === true)){
+            Recipe.all.sort(alphabetically).forEach(recipe => recipe.attachLink());
+        };
     };
 };

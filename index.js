@@ -16,13 +16,17 @@ const returnLink = document.createElement('button');
 
 // DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-    categoryAdapter.getCategories();
-    recipeAdapter.getRecipes();
-    initRecipeBtn();
-    initReturnLink();
+    categoryAdapter.getAllData();
+    // recipeAdapter.getRecipes();
+    initialEventListeners();
 });
 
 // EVENT LISTENERS
+const initialEventListeners = () => {
+    initRecipeBtn();
+    initReturnLink();
+};
+
 const initRecipeBtn = () => {
     recipeBtn.addEventListener('click', handleRecipeBtn);
 };
@@ -46,7 +50,7 @@ const handleRecipeBtn = (e) => {
 
 const handleReturnLink = (e) => {
     resetPage();
-    Recipe.all.forEach(recipe => recipe.attachLink());
+    Recipe.all.sort(alphabetically).forEach(recipe => recipe.attachLink());
 };
 
 // SET PAGE TO DEFAULT
@@ -71,5 +75,16 @@ const resetPage = () => {
         category.selected = false;
         category.attachButton();
     });
-    Category.filteredCategories = [];
+    Recipe.selectedRecipes = [];
+};
+
+// OTHER CALLBACKS
+const alphabetically = (a,b) => {
+    if (a.name.toUpperCase() < b.name.toUpperCase()) {
+        return -1;
+    };
+    if (a.name.toUpperCase() > b.name.toUpperCase()) {
+        return 1;
+    };
+    return 0;
 };

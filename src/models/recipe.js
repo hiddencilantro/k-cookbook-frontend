@@ -1,7 +1,8 @@
 class Recipe {
     static all = [];
+    static selectedRecipes = [];
     
-    constructor({id, name, eng_name, description, image, ingredients, instructions, category_id}) {
+    constructor({id, name, eng_name, description, image, ingredients, instructions}) {
         this.id = id;
         this.name = name;
         this.engName = eng_name ? eng_name : "";
@@ -9,7 +10,7 @@ class Recipe {
         this.image = image;
         this.ingredients = ingredients;
         this.instructions = instructions;
-        this.categoryId = category_id;
+        this.category = null;
 
         this.link = document.createElement('div');
         this.link.addEventListener('click', this.handleRecipeClick);
@@ -106,7 +107,7 @@ class Recipe {
             <form id="recipe-form">
                 <label for="cat-dropdown">Category:</label><br>
                 <select id="cat-dropdown">
-                    <option>Select a category</option>
+                    <option disabled>Select a category</option>
                 </select>
                 <br>
                 <label for="recipe-name">Recipe Name:</label><br>
@@ -134,6 +135,18 @@ class Recipe {
             </form>
         `;
         Category.all.forEach(category => category.attachOption());
+        Category.dropdown().append(Category.renderNewOption());
+        Category.dropdown().addEventListener('change', (e) => {
+            if(e.target.value === `new`) {
+                const input = document.createElement('input');
+                input.type = "text";
+                input.id = "cat-new";
+                input.setAttribute('placeholder', 'Category Name');
+                Category.dropdown().after(' ', input);
+            } else if(formContainer().querySelector('#cat-new')){
+                formContainer().querySelector('#cat-new').remove();
+            };
+        });
         Category.dropdown().selectedIndex = 0;
         Recipe.initExtraFields();
     
@@ -185,7 +198,7 @@ class Recipe {
             `;
         });
         Category.all.forEach(category => category.attachOption());
-        Category.dropdown().value = this.categoryId;
+        Category.dropdown().value = this.category.id;
         Recipe.initExtraFields();
 
         this.info.remove();
@@ -246,23 +259,5 @@ class Recipe {
         if(confirm('Are you sure you want to delete this recipe?')){
             recipeAdapter.deleteRecipe(this.id);
         }; 
-    };
-
-    // MISC
-    static filterByCategory(categories) {
-        if(categories.length) {
-            const filteredResults = Recipe.all.filter(recipe => {
-                for(const category of categories) {
-                    if(parseInt(category.id) === recipe.categoryId) {
-                        return true;
-                    };
-                };
-            });
-            Recipe.list().innerHTML = ``;
-            filteredResults.forEach(recipe => recipe.attachLink());
-        } else {
-            Recipe.list().innerHTML = ``;
-            Recipe.all.forEach(recipe => recipe.attachLink());
-        };
     };
 };
