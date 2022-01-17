@@ -27,7 +27,7 @@ class RecipeAdapter {
                 ingredients: ingredients,
                 instructions: instructions,
                 category_id: Category.dropdown().value === 'new' ? '' : Category.dropdown().value,
-                category_name: !!formContainer().querySelector('#cat-new') ? formContainer().querySelector('#cat-new').value : ''
+                category_attributes: !!formContainer().querySelector('#cat-new') ? {name: formContainer().querySelector('#cat-new').value} : {name: ''}
         }};
         return dataObj;
     };
