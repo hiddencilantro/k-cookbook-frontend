@@ -283,6 +283,7 @@ h4 {
 .category-buttons:hover {
     background-color: #ef7911;
     color: #fff;
+    border: solid 1px #303030;
 }
 
 .recipe-link:hover {
