@@ -272,17 +272,12 @@ h4 {
     margin-right: 20px;
 }
 
-#add-ingredient:hover, #add-instruction:hover, #recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .return-link:hover, #recipe-ingredients button:hover, #recipe-instructions button:hover {
+#add-ingredient:hover, #add-instruction:hover, .return-link:hover {
     color: #303030;
 }
 
-#recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover {
-    border: solid 1px #303030;
-}
-
-.category-buttons:hover {
-    background-color: #ef7911;
-    color: #fff;
+#recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .category-buttons:hover {
+    color: #303030;
     border: solid 1px #303030;
 }
 
