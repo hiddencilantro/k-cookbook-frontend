@@ -276,8 +276,14 @@ h4 {
     color: #303030;
 }
 
-#recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover, .category-buttons:hover {
+#recipe-button:hover, .form input[type="submit"]:hover, .edit:hover, .delete:hover {
     color: #303030;
+    border: solid 1px #303030;
+}
+
+.category-buttons:hover {
+    background-color: #ef7911;
+    color: #fff;
     border: solid 1px #303030;
 }
 
