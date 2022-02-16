@@ -1,5 +1,5 @@
 // INITIALIZATION
-const domain = 'https://polar-river-71051.herokuapp.com';
+const domain = 'https://k-ookbook.herokuapp.com';
 const categoryAdapter = new CategoryAdapter(domain);
 const recipeAdapter = new RecipeAdapter(domain);
 
