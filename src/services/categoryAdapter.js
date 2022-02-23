@@ -12,6 +12,7 @@ class CategoryAdapter {
                     const associatedRecipeInstances = associatedRecipeObjects.map(obj => new Recipe({id: obj.id, ...obj.attributes}));
                     const category = new Category(catObj.id, catObj.attributes.name, associatedRecipeInstances);
                     associatedRecipeInstances.forEach(recipe => recipe.category = category);
+                    resetPage();
                     category.attachButton();
                 });
                 Recipe.all.sort(alphabetically).forEach(recipe => recipe.attachLink())
